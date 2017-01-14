@@ -1,0 +1,26 @@
+.flexbox-horizontal {
+  display: flex;
+  flex-flow: row;
+
+  &.center-content {
+    justify-content: center;
+  }
+}
+
+.flexbox-horizontal-wrap {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.flexbox-vertical {
+  display: flex;
+  flex-flow: column;
+}
+
+.basic-flex-item {
+  flex: 1 0;
+}
+
+.extended-flex-item {
+  flex: 1;
+}

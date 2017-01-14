@@ -1,0 +1,70 @@
+@import 'styles/_common';
+@import 'styles/_flexbox';
+
+$main-font: 'Gotham Narrow SSm', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+
+html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: $main-font;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+#root-wrapper {
+  background-color: #fff;
+}
+
+header {
+  background-color: #f5f8fa;
+  border-bottom: 1px solid #e1e8ed;
+  padding: 10px;
+  height: 60px;
+
+  .brand {
+    float: left;
+    display: inline-block;
+    font-weight: 600;
+    font-size: 18px;
+    padding: 8px 12px;
+    margin: 0;
+  }
+}
+
+.main {
+  position: absolute;
+  top: 60px;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  div[data-reactroot] {
+    height: 100%;
+  }
+
+  #app {
+    height: 100%;
+  }
+
+  #app-root-wrapper {
+    height: 100%;
+    width: 100%;
+
+    #content {
+      height: 100%;
+    }
+  }
+}

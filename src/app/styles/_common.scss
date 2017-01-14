@@ -1,0 +1,43 @@
+.hidden {
+  display: none;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.status-label {
+  padding:0px 5px 0px 5px;
+}
+
+.thin-text {
+  font-weight:300;
+}
+
+.small-cap-label {
+  font-variant:small-caps;
+}
+
+.small-bold-label {
+  font-size:12px;
+  font-weight:500;
+}
+
+.control {
+  margin-left: 90px;
+  .selected-topic-term {
+    border-top:2px solid #eee;
+    border-bottom:1px solid #eee;
+    font-size: 13px;
+    padding:3px;
+  }
+  .selected-topic-term:hover {
+    background-color: #ccc; 
+  }
+  .selected-topic-term.dark {
+    background-color: #eee;  
+  }
+  .selected-topic-term.dark:hover {
+    background-color: #ccc; 
+  }
+}
