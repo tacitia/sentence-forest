@@ -1,21 +1,21 @@
 import { connect } from 'react-redux';
 
-import { setAbstractOrder } from '../actions/abstractActions';
+import { setSelectedAbstract } from '../actions/abstractActions';
 import { getAbstractWithSentenceArrays } from '../selectors/abstractSelectors';
 import AbstractTextArea from '../components/AbstractTextArea';
 
 const mapStateToProps = (state) => {
   return { 
     abstracts: getAbstractWithSentenceArrays(state),
-    abstractOrder: state.abstractReducer.order
+    selectedAbstract: state.abstractReducer.selectedAbstract
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    onAbstractOrderSelect: (order) => {
-      dispatch(setAbstractOrder(order));
-    }
+    onAbstractOrderSelect: (id) => {
+      dispatch(setSelectedAbstract(id));
+    },
   };
 };
 

@@ -8,12 +8,12 @@ var webpackConfig = require('./webpack.config.js');
 var paths = {
   src:   __dirname + '/src',
   dist:  __dirname + '/dist',
-  bower: __dirname + '/src/bower_components'
+  bower: __dirname + '/bower_components'
 };
 
 var patterns = {
   js          : paths.src + '/app/**/*.@(js|jsx)',
-  bower       : paths.src + '/bower_components/**/*.@(css|png|jpg|jpeg|tiff|gif|woff|woff2|ttf|otf|svg)',
+  bower       : paths.bower + '/**/*.@(css|png|jpg|jpeg|tiff|gif|woff|woff2|ttf|otf|svg)',
   sass        : paths.src + '/app/**/*.scss',
   ngtemplates : paths.src + '/app/**/*.html',
   json        : paths.src + '/@(data|app)/**/*.json',

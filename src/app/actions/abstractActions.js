@@ -1,12 +1,6 @@
-import fetch from 'isomorphic-fetch';
-
-import { API_URL } from '../constants/Enumerations';
-import Cookies from 'js-cookie';
-
 export const abstractActionTypes = {
   SET_ABSTRACTS: 'SET_ABSTRACTS',
-  SET_ABSTRACT_GROUP: 'SET_ABSTRACT_GROUP',
-  SET_ABSTRACT_ORDER: 'SET_ABSTRACT_ORDER',
+  SET_SELECTED_ABSTRACT: 'SET_SELECTED_ABSTRACT'
 };
 
 export function setAbstracts(abstracts) {
@@ -18,20 +12,11 @@ export function setAbstracts(abstracts) {
   }
 }
 
-export function setAbstractGroup(group) {
+export function setSelectedAbstract(id) {
   return {
-    type: abstractActionTypes.SET_ABSTRACT_GROUP,
+    type: abstractActionTypes.SET_SELECTED_ABSTRACT,
     payload: {
-      group
-    }
-  }
-}
-
-export function setAbstractOrder(order) {
-  return {
-    type: abstractActionTypes.SET_ABSTRACT_ORDER,
-    payload: {
-      order
+      id
     }
   }
 }

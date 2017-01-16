@@ -3,18 +3,84 @@
     "title": "Flexibility in task switching by monolinguals and bilinguals",
     "abstract": "Many bilinguals routinely switch between their languages, yet mixed evidence exists about the transfer of language switching skills to broader domains that require attentional control such as task switching. Monolingual and bilingual young adults performed a nonverbal task-switching paradigm in which they viewed colored pictures of animals and indicated either the animal or its color in response to a cue. Monolinguals and bilinguals performed similarly when switching between tasks (local switch cost) in a mixed-task block, but bilinguals demonstrated a smaller mixing effect (global switch cost) than monolinguals, indicating better ability to reconfigure stimulus–response associations. These results suggest that regular practice using multiple languages confers a broader executive function advantage shown as improved flexibility in task switching.",
     "group": 4,
-    "defaultOrder": 0
+    "id": 0,
+    "direction": "pos"
   },
   {
     "title": "A bilingual advantage in task switching",
     "abstract": "This study investigated the possibility that lifelong bilingualism may lead to enhanced efficiency in the ability to shift between mental sets. We compared the performance of monolingual and fluent bilingual college students in a task-switching paradigm. Bilinguals incurred reduced switching costs in the task-switching paradigm when compared with monolinguals, suggesting that lifelong experience in switching between languages may contribute to increased efficiency in the ability to shift flexibly between mental sets. On the other hand, bilinguals did not differ from monolinguals in the differential cost of performing mixed-task as opposed to single-task blocks. Together, these results indicate that bilingual advantages in executive function most likely extend beyond inhibition of competing responses, and encompass flexible mental shifting as well.",
     "group": 4,
-    "defaultOrder": 1
+    "id": 1,
+    "direction": "pos"
   },
   {
     "title": "Good language-switchers are good task-switchers: evidence from Spanish-English and Mandarin-English bilinguals",
     "abstract": "Bilingual advantages in executive control tasks are well documented, but it is not yet clear what degree or type of bilingualism leads to these advantages. To investigate this issue, we compared the performance of two bilingual groups and monolingual speakers in task-switching and language-switching paradigms. Spanish-English bilinguals, who reported switching between languages frequently in daily life, exhibited smaller task-switching costs than monolinguals after controlling for between-group differences in speed and parent education level. By contrast, Mandarin-English bilinguals, who reported switching languages less frequently than Spanish-English bilinguals, did not exhibit a task-switching advantage relative to monolinguals. Comparing the two bilingual groups in language-switching, Spanish-English bilinguals exhibited smaller costs than Mandarin-English bilinguals, even after matching for fluency in the non-dominant language. These results demonstrate an explicit link between language-switching and bilingual advantages in task-switching, while also illustrating some limitations on bilingual advantages.",
     "group": 4,
-    "defaultOrder": 2
+    "id": 2,
+    "direction": "pos"
+  },
+  {
+    "title": "No compelling evidence for a bilingual advantage in switching or that frequent language switching reduces switch cost",
+    "abstract": "Participants completed three cued-switching tasks, responded to two category-fluency probes, two letter-fluency probes, and two probes to alternate between two targets. Correlations across the three cued-switching tasks were significant for both switching costs and mixing costs. The bilingual advantage hypothesis was tested both by forming language groups and treating bilingualism as a continuous variable. No bilingual advantages on task switching were observed. In verbal-fluency monolinguals generated more correct responses but the bilingual disadvantage on the category task was not reduced in the letter-fluency scores. The bilingual disadvantage was eliminated when the groups were matched on vocabulary size. The verbal-fluency measures obtained when participants alternated between targets weakly correlated with the switching-costs obtained in the cued-switching tasks.",
+    "group": 4,
+    "id": 3,
+    "direction": "neg"    
+  },
+  {
+    "title": "Where is the bilingual advantage in task-switching?",
+    "abstract": "Based on previous reports of bilinguals’ reduced non-linguistic switch cost, we explored how bilingualism affects various task-switching mechanisms. We tested different groups of Spanish monolinguals and highly-proficient Catalan–Spanish bilinguals who switch between languages frequently in different task-switching implementations. In Experiment 1 we disengaged the restart cost typically occurring after a cue from the switch cost itself using two cue–task versions varying in explicitness. In Experiment 2 we tested bilingualism effects on overriding conflicting response sets by including bivalency effects. In Experiment 3 we attempted to replicate the reduced switch cost of bilinguals with the same implementation as in previous studies. Relative to monolinguals, bilinguals showed a reduced restart cost in the implicit cue–task version of Experiment 1. However, bilinguals did not show reduced switch cost in any experiment – not even in an omnibus analysis combining the standardized switch cost scores of 292 participants across the three experiments. These results qualify previous claims about bilingualism reducing non-linguistic switch costs.",
+    "group": 4,
+    "id": 4,
+    "direction": "neg"
+  },
+  {
+    "title": "Bilingual advantages in executive functioning: problems in convergent validity, discriminant validity, and the identification of the theoretical constructs",
+    "abstract": "A sample of 58 bilingual and 62 monolingual university students completed four tasks commonly used to test for bilingual advantages in executive functioning (EF): antisaccade, attentional network test, Simon, and color-shape switching. Across the four tasks, 13 different indices were derived that reflect individual differences in inhibitory control, monitoring, or task switching. The effects of bilingualism on the 13 measures were explored by directly comparing the means of the two language groups and through regression analyses using a continuous measure of bilingualism and multiple demographic characteristics as predictors. Across the 13 different measures and two types of data analysis there were very few significant results and those that did occur supported a monolingual advantage. Finally, as cautioned by Salthouse, assumed measures of executive functioning may also be threatened by a lack of discriminant validity that separates individual or group differences in EF from those in general fluid intelligence or simple processing speed.",
+    "group": 4,
+    "id": 5,
+    "direction": "neg"
+  },
+  {
+    "title": "Do 3D Visualizations Fail? An Empirical Discussion on 2D and 3D Representations of the Spatio-temporal Data",
+    "abstract": "In this paper, we present an experimental study to empirically testify whether advantages and limitations of 2D and 3D representations are valid for the spatio-temporal data visualization. To form the basis for our experimental design, we interviewed domain experts from a hospital and identified different cases of spatio-temporal data analysis in medical settings. Furthermore, we implemented two simple representations, namely density map and density cube, and conducted a laboratory experiment to compare aforementioned techniques from time and correctness perspectives. Results of our experiment revealed that care must be taken while applying highly accepted well-understood properties of 2D and 3D visualizations to the spatio-temporal data. On one hand, neither of the techniques was superior to the other in terms of task completion time except for some particular cases where the 2D visualization was faster. On the other hand, our 2D density map implementation led to more accurate inferences for tasks related to trend detection and making comparisons, as vastly suggested by the previous work.",
+    "group": 5,
+    "id": 0,
+    "direction": "neg"    
+  },
+  {
+    "title": "2D versus 3D visualization: impact on laparoscopic proficiency using the fundamentals of laparoscopic surgery skill set",
+    "abstract": "We compared the impact of two-dimensional (2D) versus three-dimensional (3D) visualization on both objective and subjective measures of laparoscopic performance using the validated Fundamentals of Laparoscopic Surgery (FLS) skill set. Thirty-three individuals with varying laparoscopic experience completed three essential drills from the FLS skill set (peg transfer, pattern cutting, and suturing/knot tying) in both 2D and 3D. Across all tasks, greater speed was achieved in 3D versus 2D. Fewer errors were committed in the peg transfer task in 3D versus 2D. Fourteen participants required multiple attempts to achieve proficiency in one or more tasks in 2D, compared with 7 in 3D. Subjective measures of efficiency and accuracy also favored 3D visualization. The advantage of 3D vision persisted independent of participants' level of technical expertise (novice v.s. intermediate/expert). Overall, 87.9% of participants preferred 3D visualization. Three-dimensional vision appears to greatly enhance laparoscopic proficiency based on objective and subjective measures. In our experience, 3D visualization produced no more eye strain, headaches, or other side effects than 2D visualization. Participants overwhelmingly preferred 3D visualization.",
+    "group": 5,
+    "id": 1,
+    "direction": "pos"
+  },
+  {
+    "title": "Time efficiency of CT colonography: 2D vs 3D visualization",
+    "abstract": "We aimed to compare the time efficiency of three visualization methods in CT colonography and to identify the colonic factors influencing the time for interpretation. Twenty CT colonography examinations were prospectively analysed. Three reading methods were adopted: method 1, primary 2D analysis with the use of virtual endoscopy as problem solver; method 2, primary standard virtual endoscopy with semi-automatic 3D navigation through the colon and use of 2D images as problem solver; method 3, primary virtual endoscopy with automatic 3D navigation and the use of 2D images as problem solver. Method 1 was found to be significantly faster than method 2. Faecal or fluid residuals were reported as major drawbacks in 3D navigations, requiring constant correlation with 2D images; tortuous folds influenced mostly the 2D analysis; diverticula were reported as influencing factor in all three methods. The 3D semi-automatic navigation method tended to increase the time for interpretation in almost all cases. There is, in particular, greatest time efficiency for 2D analysis as compared with 3D manual analysis. Two-dimensional and automated 3D navigation reading have comparable time efficiencies in a routine clinical setting.",
+    "group": 5,
+    "id": 2,
+    "direction": "pos"
+  },
+  {
+    "title": "Evaluation of Artery Visualizations for Heart Disease Diagnosis",
+    "abstract": "Heart disease is the number one killer in the United States, and finding indicators of the disease at an early stage is critical for treatment and prevention. In this paper we evaluate visualization techniques that enable the diagnosis of coronary artery disease. A key physical quantity of medical interest is endothelial shear stress (ESS). Low ESS has been associated with sites of lesion formation and rapid progression of disease in the coronary arteries. Having effective visualizations of a patient’s ESS data is vital for the quick and thorough non-invasive evaluation by a cardiologist. We present a task taxonomy for hemodynamics based on a formative user study with domain experts. Based on the results of this study we developed HemoVis, an interactive visualization application for heart disease diagnosis that uses a novel 2D tree diagram representation of coronary artery trees. We present the results of a formal quantitative user study with domain experts that evaluates the effect of 2D versus 3D artery representations and of color maps on identifying regions of low ESS. We show statistically significant results demonstrating that our 2D visualizations are more accurate and time-efficient than 3D representations, and that a perceptually appropriate color map leads to fewer diagnostic mistakes than a rainbow color map.",
+    "group": 5,
+    "id": 3,
+    "direction": "neg"
+  },
+  {
+    "title": "Implications of Graphics Enhancements for the Visualization of Scientific Data: Dimensional Integrality, Stereopsis, Motion, and Mesh",
+    "abstract": "This study examines the effectiveness of four techniques to assist scientists in evaluating multidimensional data. Subjects viewed a series of complex 3D data sets, each representing an underlying complex surface, from which a set of discrete points or observations were sampled. From each sample they answered questions that required focus of attention on certain data points or integration across varying numbers of data points and dimensions. Subject performance was measured as the time it took for the subject to answer each question correctly. In Experiment 1, 3D (perspective) representations were found to support superior performance to 2D (planar) representations, but only for more integrative questions. Animated motion provided no benefits. In Experiment 2, stereoptic views of a 3D display were also found to support performance, particularly for integrative questions, but the ability to rotate the data space (motion parallax) and the presence of a mesh surface connecting the points did not. The posttests revealed some evidence that 3D representations improved the ability to visualize the surface.",
+    "group": 5,
+    "id": 4,
+    "direction": "neg"
+  },
+  {
+    "title": "The Impact of Interactivity on Comprehending 2D and 3D Visualizations of Time-varying Data",
+    "abstract": "It has become increasingly common to track the positions of objects over time as they move through two-dimensional spaces. Visualizing such spatio-temporal data is challenging because simply plotting the data on a 2D map can result in overplotting and occlusion that hides details. This also makes it difficult to understand correlations between space and time. Some software display such data with a three-dimensional visualization, where the 3rd dimension is used for time. This allows for the disambiguation of spatially overlapping trajectories, and in theory, should make the data clearer. We present a new controlled experimental comparison of 2D and 3D visualizations, involving commonly performed tasks that have not been tested before. We find advantages, such as reduced task performance time, in 3D visualizations for more complex tasks. In particular, we tease out the effects of various basic interactions and find that the 2D view relies significantly on “scrubbing” the timeline, whereas the 3D view relies mainly on 3D camera navigation. Our work helps to improve understanding of 2D and 3D visualizations of spatio-temporal data, particularly with respect to interactivity.",
+    "group": 5,
+    "id": 5,
+    "direction": "pos"
   }
 ]

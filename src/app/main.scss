@@ -1,7 +1,7 @@
 @import 'styles/_common';
 @import 'styles/_flexbox';
 
-$main-font: 'Gotham Narrow SSm', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$main-font: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
 html {
   margin: 0;
@@ -63,8 +63,19 @@ header {
     height: 100%;
     width: 100%;
 
-    #content {
-      height: 100%;
+    button {
+      outline: none;
     }
+
+    #abstract-text-area {
+
+      font-size: 18px;
+      letter-spacing: 0.2px;
+
+      #abstract-content-area {
+        margin: 0 20px 0 50px;
+      }
+    }
+
   }
 }
