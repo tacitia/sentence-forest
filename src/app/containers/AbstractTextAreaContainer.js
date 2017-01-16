@@ -1,6 +1,7 @@
 import { connect } from 'react-redux';
 
 import { setSelectedAbstract } from '../actions/abstractActions';
+import { setInterfaceStage } from '../actions/conditionActions';
 import { getAbstractWithSentenceArrays } from '../selectors/abstractSelectors';
 import AbstractTextArea from '../components/AbstractTextArea';
 
@@ -16,6 +17,9 @@ const mapDispatchToProps = (dispatch) => {
     onAbstractOrderSelect: (id) => {
       dispatch(setSelectedAbstract(id));
     },
+    allArticlesRead: () => {
+      dispatch(setInterfaceStage('exit-survey'));
+    }
   };
 };
 

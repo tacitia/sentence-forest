@@ -2,6 +2,7 @@ import React from 'react'
  
 import AbstractTextAreaContainer from '../containers/AbstractTextAreaContainer';
 import SentenceForestContainer from '../containers/SentenceForestContainer';
+import InstructionsContainer from '../containers/InstructionsContainer';
 
 class App extends React.Component {
 
@@ -11,10 +12,15 @@ class App extends React.Component {
 
   render() {
     console.log(this.props)
-    if (this.props.interfaceStage === 'survey') {
-      return <div id="app-root-wrapper">
+    if (this.props.interfaceStage === 'exit-survey') {
+      return (<div id="app-root-wrapper">
         <iframe src="https://brown.co1.qualtrics.com/SE/?SID=SV_9RJ3LTm1X05iRff" height="100%" width="100%"></iframe>
-      </div>
+      </div>);
+    }
+    else if (this.props.interfaceStage === 'instructions') {
+      return (<div id="app-root-wrapper">
+        <InstructionsContainer />
+      </div>);
     }
     else {
       if (this.props.interfaceCondition === 'text-only') {

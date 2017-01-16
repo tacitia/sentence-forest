@@ -19,6 +19,9 @@ class AbstractTextArea extends React.Component {
     if (this.props.selectedAbstract < 5) {
       this.props.onAbstractOrderSelect(this.props.selectedAbstract + 1);
     }
+    else {
+      this.props.allArticlesRead();
+    }
   }
 
   render() {

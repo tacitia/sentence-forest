@@ -23,7 +23,7 @@ const store = createStore(
 d3.json('data/abstracts.json', data => {
   console.log(data);
   store.dispatch(setAbstracts(data));
-  store.dispatch(setAbstractGroup(4));
+  store.dispatch(setAbstractGroup(5));
   store.dispatch(setAbstractOrder('pos-neg'));
 }, error => {
   console.log(error);

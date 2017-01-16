@@ -1,0 +1,26 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'run', 'deploy-demo' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.32
+4 verbose run-script [ 'predeploy-demo', 'deploy-demo', 'postdeploy-demo' ]
+5 info predeploy-demo session-lens@0.0.0
+6 info deploy-demo session-lens@0.0.0
+7 verbose unsafe-perm in lifecycle true
+8 info session-lens@0.0.0 Failed to exec deploy-demo script
+9 error session-lens@0.0.0 deploy-demo: `git push origin :gh-pages && git subtree push --prefix dist origin gh-pages`
+9 error Exit status 1
+10 error Failed at the session-lens@0.0.0 deploy-demo script.
+10 error This is most likely a problem with the session-lens package,
+10 error not with npm itself.
+10 error Tell the author that this fails on your system:
+10 error     git push origin :gh-pages && git subtree push --prefix dist origin gh-pages
+10 error You can get their info via:
+10 error     npm owner ls session-lens
+10 error There is likely additional logging output above.
+11 error System Darwin 14.5.0
+12 error command "node" "/usr/local/bin/npm" "run" "deploy-demo"
+13 error cwd /Users/Cephylia/Personal/1_Project/26_CognitiveBias/Interfaces/sentence-forest
+14 error node -v v0.10.32
+15 error npm -v 1.4.28
+16 error code ELIFECYCLE
+17 verbose exit [ 1, true ]

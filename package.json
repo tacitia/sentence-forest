@@ -1,7 +1,7 @@
 {
-  "name": "session-lens",
+  "name": "sentence-forest",
   "version": "0.0.0",
-  "description": "A tool for exploratory session analysis.",
+  "description": "An experiment prototype for better research article comprehension using sentence forest.",
   "main": "",
   "author": "@tacitia",
   "scripts": {

@@ -6,7 +6,7 @@ const initialState = {
   abstractGroup: 5,
   abstractOrder: 'pos-neg',
   interfaceCondition: 'text-only',
-  interfaceStage: 'survey'
+  interfaceStage: 'instructions'
 };
 
 // This reducer manages two types of references: bookmarks and citations
@@ -22,6 +22,10 @@ const conditionReducer = (state = initialState, action) => {
     case conditionActionTypes.SET_ABSTRACT_ORDER:
       return Object.assign({}, state, {
         abstractOrder: action.payload.order
+      });
+    case conditionActionTypes.SET_INTERFACE_STAGE:
+      return Object.assign({}, state, {
+        interfaceStage: action.payload.stage
       });
     default:
       return state;

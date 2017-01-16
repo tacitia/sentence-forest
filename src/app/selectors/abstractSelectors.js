@@ -7,9 +7,8 @@ export const getAbstractWithSentenceArrays = createSelector(
   [ getAbstracts, getConditions ], 
   (abstracts, conditions) => {
     if (!abstracts) return [];
-    console.log(conditions)
     const results = abstracts
-      .filter(a => a.group !== conditions.abstractGroup)
+      .filter(a => a.group === conditions.abstractGroup)
       .sort((a, b) => {
         const posFirst = conditions.abstractOrder === 'pos-neg'
         if (a === 'pos' && b === 'neg') {
