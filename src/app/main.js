@@ -20,7 +20,7 @@ const store = createStore(
   applyMiddleware(thunk, logger)
 );
 
-d3.json('../data/abstracts.json', data => {
+d3.json('data/abstracts.json', data => {
   console.log(data);
   store.dispatch(setAbstracts(data));
   store.dispatch(setAbstractGroup(4));

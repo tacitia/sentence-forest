@@ -13,7 +13,8 @@
     "webpack-watch": "webpack --watch",
     "dev": "(npm run webpack-watch)& gulp watch & npm run browser-sync",
     "test": "karma start --single-run",
-    "tdd": "karma start"
+    "tdd": "karma start",
+    "deploy-demo": "git push origin :gh-pages && git subtree push --prefix dist origin gh-pages"
   },
   "license": "UNLICENSED",
   "dependencies": {
