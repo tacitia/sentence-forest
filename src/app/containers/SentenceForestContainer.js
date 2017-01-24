@@ -1,11 +1,12 @@
 import { connect } from 'react-redux';
 
-import { getAbstractWithSentenceArrays } from '../selectors/abstractSelectors';
+import { getAbstractWithSentenceArrays, getSentenceForest } from '../selectors/abstractSelectors';
 import SentenceForest from '../components/SentenceForest';
 
 const mapStateToProps = (state) => {
   return { 
-    abstracts: getAbstractWithSentenceArrays(state)
+    abstracts: getAbstractWithSentenceArrays(state),
+    sentenceForest: getSentenceForest(state)
   };
 };
 

@@ -30,7 +30,9 @@
     "react-dropzone": "^3.5.3",
     "react-redux": "^4.4.5",
     "react-vega": "^1.0.1",
-    "redux": "^3.5.2"
+    "redux": "^3.5.2",
+    "stemmer": "^1.0.0",
+    "stopwords-en": "^0.3.0"
   },
   "devDependencies": {
     "babel-core": "~6.3.21",

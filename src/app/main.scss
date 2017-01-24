@@ -46,7 +46,7 @@ header {
 
 .main {
   position: absolute;
-  top: 60px;
+  top: 0;
   right: 0;
   bottom: 0;
   left: 0;
@@ -67,13 +67,32 @@ header {
       outline: none;
     }
 
+    .main-content {
+      font-family: Helvetica Neue;
+      margin: 50px 100px 50px 100px;
+      font-size: 18px;
+    }
+
+    #instruction-content {
+      font-family: Roboto;
+      font-size: 18px;
+      margin: 40px 0 40px 0;
+    }
+
     #abstract-text-area {
 
+      font-family: Roboto;
+      margin: 30px 0 10px 0;
       font-size: 18px;
       letter-spacing: 0.2px;
 
+      #abstract-list {
+        font-size: 16px;
+      }
+
       #abstract-content-area {
         margin: 0 20px 0 50px;
+        flex: 0 0 60%;
       }
     }
 

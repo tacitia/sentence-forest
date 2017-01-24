@@ -13,6 +13,8 @@ import AppContainer from './containers/AppContainer';
 import appReducer from './reducers';
 import { setAbstracts } from './actions/abstractActions';
 import { setAbstractGroup, setAbstractOrder } from './actions/conditionActions';
+import { fetchCSRFToken, setUserId, setStudyId } from './actions/metaActions';
+import { getRandomString } from './utility';
 
 const logger = createLogger();
 const store = createStore(
@@ -28,6 +30,10 @@ d3.json('data/abstracts.json', data => {
 }, error => {
   console.log(error);
 });
+
+store.dispatch(setUserId(getRandomString()));
+store.dispatch(setStudyId('T5-PN-test'));
+store.dispatch(fetchCSRFToken());
 
 ReactDOM.render(
   (

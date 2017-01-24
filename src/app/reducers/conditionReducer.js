@@ -6,6 +6,7 @@ const initialState = {
   abstractGroup: 5,
   abstractOrder: 'pos-neg',
   interfaceCondition: 'text-only',
+//  interfaceStage: 'task'
   interfaceStage: 'instructions'
 };
 

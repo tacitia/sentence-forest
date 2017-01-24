@@ -7,7 +7,8 @@ import App from '../components/App';
 const mapStateToProps = (state) => {
   return {
     interfaceCondition: state.conditionReducer.interfaceCondition,
-    interfaceStage: state.conditionReducer.interfaceStage
+    interfaceStage: state.conditionReducer.interfaceStage,
+    userCode: state.metaReducer.userId
   };
 };
 

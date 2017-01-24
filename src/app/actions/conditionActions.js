@@ -10,7 +10,7 @@ export function setAbstractGroup(group) {
     payload: {
       group
     }
-  }
+  };
 }
 
 export function setAbstractOrder(order) {
@@ -19,7 +19,7 @@ export function setAbstractOrder(order) {
     payload: {
       order
     }
-  }
+  };
 }
 
 export function setInterfaceStage(stage) {
@@ -28,5 +28,5 @@ export function setInterfaceStage(stage) {
     payload: {
       stage
     }
-  }
+  };
 }
