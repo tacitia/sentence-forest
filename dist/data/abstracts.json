@@ -1,5 +1,89 @@
 [
   {
+    "title": "Effectiveness of Animation in Trend Visualization",
+    "abstract": "Animation has been used to show trends in multi-dimensional data. This technique has recently gained new prominence for presentations, most notably with Gapminder Trendalyzer. In Trendalyzer, animation together with interesting data and an engaging presenter helps the audience understand the results of an analysis of the data. It is less clear whether trend animation is effective for analysis. This paper proposes two alternative trend visualizations that use static depictions of trends: one which shows traces of all trends overlaid simultaneously in one display and a second that uses a small multiples display to show the trend traces side-by-side. The paper evaluates the three visualizations for both analysis and presentation. Results indicate that trend animation can be challenging to use even for presentations; while it is the fastest technique for presentation and participants find it enjoyable and exciting, it does lead to many participant errors. Animation is the least effective form for analysis; both static depictions of trends are significantly faster than animation, and the small multiples display is more accurate.",
+    "group": 1,
+    "id": 0,
+    "direction": "neg"
+  },
+  {
+    "title": " The effect of animated transitions in zooming interfaces",
+    "abstract": "Zooming interfaces use animated transitions to smoothly shift the users view between different scales of the workspace. Animated transitions assist in preserving the spatial relationships between views. However, they also increase the overall interaction time. To identify whether zooming interfaces should take advantage of animations, we carried out one experiment that explores the effects of smooth transitions on a spatial task. With metro maps, users were asked to identify the number of metro stops between different subway lines with and without animated zoom-in/out transitions. The results of the experiment show that animated transitions can have significant benefits on user performance - participants in the animation conditions were twice as fast and overall made fewer errors than in the non-animated conditions. In addition, short animations were found to be as effective as long ones, suggesting that some of the costs of animations can be avoided. Users also preferred interacting with animated transitions than without. Our study gives empirical evidence on the benefits of animated transitions in zooming interfaces.",
+    "group": 1,
+    "id": 1,
+    "direction": "pos"
+  },
+  {
+    "title": "Animation, Small Multiples, and the Effect of Mental Map Preservation in Dynamic Graphs",
+    "abstract": "In this paper, we present the results of a human-computer interaction experiment that compared the performance of the animation of dynamic graphs to the presentation of small multiples and the effect that mental map preservation had on the two conditions. Questions used in the experiment were selected to test both local and global properties of graph evolution over time. The data sets used in this experiment were derived from standard benchmark data sets of the information visualization community. We found that small multiples gave significantly faster performance than animation overall and for each of our five graph comprehension tasks. In addition, small multiples had significantly more errors than animation for the tasks of determining sets of nodes or edges added to the graph during the same timeslice, although a positive time-error correlation coefficient suggests that, in this case, faster responses did not lead to more errors. This result suggests that, for these two tasks, animation is preferable if accuracy is more important than speed. Preserving the mental map under either the animation or the small multiples condition had little influence in terms of response time.",
+    "group": 1,
+    "id": 2,
+    "direction": "pos"
+  },
+  {
+    "title": "Animation: can it facilitate?",
+    "abstract": "Graphics have been used since ancient times to portray things that are inherently spatiovisual, like maps and building plans. More recently, graphics have been used to portray things that are metaphorically spatiovisual, like graphs and organizational charts. The assumption is that graphics can facilitate comprehension, learning, memory, communication and inference. Assumptions aside, research on static graphics has shown that only carefully designed and appropriate graphics prove to be beneficial for conveying complex systems. We conducted a meta-analysis of research on the efficacy of animated over static graphics, and the results are not encouraging. In cases where animated graphics seem superior to static ones, scrutiny reveals lack of equivalence between animated and static graphics in content or procedures; the animated graphics convey more information or involve interactivity. Animations of events may be ineffective because animations violate the second principle of good graphics, the Apprehension Principle, according to which graphics should be accurately perceived and appropriately conceived. Animations are often too complex or too fast to be accurately perceived. Moreover, many continuous events are conceived of as sequences of discrete steps.",
+    "group": 1,
+    "id": 3,
+    "direction": "neg"
+  },
+  {
+    "title": "Using Flow Maps to Visualize Time-Series Data: Comparing the Effectiveness of a Paper Map Series, a Computer Map Series, and Animation",
+    "abstract": "Motion and change through time are important aspects of thematic maps. Traditionally, such data have been visualized using a series of paper maps that represent multiple snapshots of a location over time. This static view of change over time has worked well for cartographers in the past, but today computer animation allows cartographers to emphasize the dynamic nature of this data. This study compared a paper map series, a computer map series, and animated maps of the same data to assess the effectiveness of each technique for analyzing data symbolized by graduated flow lines. Subjects were asked to study the maps and to analyze two types of information: quantity data at specified locations on the maps and trend patterns that occurred over the maps. Analysis results of the information were subsequently solicited using a series of multiple choice questions. Analysis of response times and accuracy rates for these questions suggest that animation slightly improves judgements for quantity evaluations. Animation also appears to improve subjects' abilities to learn and remember trend patterns in the data.",
+    "group": 1,
+    "id": 4,
+    "direction": "pos"
+  }, 
+   {
+    "title": "Effective temporal graph layout: A comparative study of animation versus static display methods",
+    "abstract": "Graph drawing algorithms have classically addressed the layout of static graphs. However, the need to draw evolving or dynamic graphs has brought into question many of the assumptions, conventions and layout methods designed to date. Two common approaches to represent temporal information in graphs include animation of the network and use of static snapshots of the network at different points in time. Here, we report on two experiments, one in a laboratory environment and another using an asynchronous remote web-based platform, Mechanical Turk, to compare the efficiency of animated displays versus static displays. Four tasks are studied with each visual representation, where two characterise overview level information presentation, and two characterise micro level analytical tasks. For the tasks studied in these experiments and within the limits of the experimental system, the results of this study indicate that static representations are generally more effective in terms of both time performance and accuracy, when compared to fully animated movie representations of dynamic networks.",
+    "group": 1,
+    "id": 5,
+    "direction": "neg"
+  },  
+  {
+    "title": "Elevated false recollection of emotional pictures in young and older adults",
+    "abstract": "Current theories predict opposing effects of emotionally arousing information on false memory. If emotion enhances true recollection, then false recollection might be lower for emotional than for neutral pictures. However, if emotion enhances conceptual relatedness, then false recollection might increase for non-studied but emotionally related pictures. We contrasted these 2 factors in young and older adults, using the International Affective Pictures Systems set (Lang, Bradley, & Cuthbert, 2005). Although both age groups used recollection in our task, false recollection was greatest for emotional pictures, supporting a conceptual relatedness account. Finally, even after accuracy differences were controlled, age was related to high-confidence false recollection of emotional pictures.",
+    "group": 3,
+    "id": 0,
+    "direction": "pos"
+  },
+  {
+    "title": "False recollection of emotional pictures in Alzheimer's disease",
+    "abstract": "Alzheimer's Disease (AD) can reduce the effects of emotional content on memory for studied pictures, but less is known about false memory. In healthy adults, emotionally arousing pictures can be more susceptible to false memory effects than neutral pictures, potentially because emotional pictures share conceptual similarities that cause memory confusions. We investigated these effects in AD patients and healthy controls. Participants studied pictures and their verbal labels, and then picture recollection was tested using verbal labels as retrieval cues. Some of the test labels had been associated with a picture at study, whereas other had not. On this picture recollection test, we found that both AD patients and controls incorrectly endorsed some of the test labels that had not been studied with pictures. These errors were associated with medium to high levels of confidence, indicating some degree of false recollection. Critically, these false recollection judgments were greater for emotional compared to neutral items, especially for positively valenced items, in both AD patients and controls. Dysfunction of the amygdala and hippocampus in early AD may impair recollection, but AD did not disrupt the effect of emotion on false recollection judgments.",
+    "group": 3,
+    "id": 1,
+    "direction": "pos"
+  },
+  {
+    "title": "Memory for media: Investigation of false memories for negatively and positively charged public events",
+    "abstract": "Despite a large body of false memory research, little has addressed the potential influence of an event's emotional content on susceptibility to false recollections. The Paradoxical Negative Emotion (PNE) hypothesis predicts that negative emotion generally facilitates memory but also heightens susceptibility to false memories. Participants were asked whether they could recall 20 “widely publicised” public events (half fictitious) ranging in emotional valence, with or without visual cues. Participants recalled a greater number of true negative events than true positive and true neutral events. Nearly everyone (95%) came to recall at least one false event (M=2.15 false events recalled). Further, more than twice as many participants recalled any false negative compared to false positive or false neutral events. Emotional events, in general, were associated with more detailed memories and false negative event memories were more detailed than false positive event memories.",
+    "group": 3,
+    "id": 2,
+    "direction": "pos"
+  },
+  {
+    "title": "The effects of emotional content and aging on false memories",
+    "abstract": "After studying a list of words related to a non-presented lure word, people often falsely recall or recognize the non-presented lure. Older adults are particularly susceptible to these forms of false memories. The age-related false memory enhancement likely occurs because older adults do not encode, or later retrieve, items in enough detail to allow them to discriminate between presented words and other associated but non-presented items. Pesta, Murphy, and Sanders (2001) suggested that the emotional salience of the lures may provide distinctiveness, so that individuals would be less likely to endorse an emotional lure as a studied item than to endorse a neutral lure. In the present investigation, young and older adults were less likely to falsely recall or recognize emotional, as compared with neutral, lures. Both age groups appeared capable of using the distinctiveness of the emotional lures to reduce, although not to eliminate, false recall and recognition.",
+    "group": 3,
+    "id": 3,
+    "direction": "neg"
+  },
+  {
+    "title": "Emotional content enhances true but not false memory for categorized stimuli",
+    "abstract": "Past research has shown that emotion enhances true memory, but that emotion can either increase or decrease false memory. In the present study, we sought to identify the mechanisms that underlie these mixed findings by equating the thematic relatedness of the study materials across each type of valence used (negative, positive, or neutral). In three experiments, categorically bound stimuli (e.g., funeral, pets, and office items) were used for this purpose. When the encoding task required the processing of thematic relatedness, a significant true-memory enhancement for emotional content emerged in recognition memory, but no emotional boost to false memory. This pattern persisted for true memory with a longer retention interval between study and test (24 h), and false recognition was reduced for emotional items. Finally, better recognition memory for emotional items once again emerged when the encoding task (arousal ratings) required the processing of the emotional aspect of the study items, with no emotional boost to false recognition. Together, these findings suggest that when emotional and neutral stimuli are equivalently high in thematic relatedness, emotion continues to improve true memory, but it does not override other types of grouping to increase false memory.",
+    "group": 3,
+    "id": 4,
+    "direction": "neg"
+  },
+  {
+    "title": "Investigating the mechanisms fuelling reduced false recall of emotional material",
+    "abstract": "We investigated false memory for emotional word lists using the Deese-Roediger-McDermott paradigm. Participants viewed negative, positive, and neutral lists of semantic associates matched on backward associate strength (BAS) and word frequency and recalled as many words as they could remember after each list was presented. Results from two experiments indicated that while participants did create false memories for emotional word lists, neutral lists resulted in the highest false and true recall rates. Experiment 2 used an inclusion task that required participants to recall any words that came to mind and indicate whether the words had actually been presented. The results suggest that emotional words decrease false memories, in part, by encouraging item-specific processing, which consequently impairs the acquisition of relational information and/or the spread of activation to the critical lure.",
+    "group": 3,
+    "id": 5,
+    "direction": "neg"
+  },       
+  {
     "title": "Flexibility in task switching by monolinguals and bilinguals",
     "abstract": "Many bilinguals routinely switch between their languages, yet mixed evidence exists about the transfer of language switching skills to broader domains that require attentional control such as task switching. Monolingual and bilingual young adults performed a nonverbal task-switching paradigm in which they viewed colored pictures of animals and indicated either the animal or its color in response to a cue. Monolinguals and bilinguals performed similarly when switching between tasks (local switch cost) in a mixed-task block, but bilinguals demonstrated a smaller mixing effect (global switch cost) than monolinguals, indicating better ability to reconfigure stimulus–response associations. These results suggest that regular practice using multiple languages confers a broader executive function advantage shown as improved flexibility in task switching.",
     "group": 4,
@@ -57,7 +141,7 @@
   },
   {
     "title": "Time efficiency of CT colonography: 2D vs 3D visualization",
-    "abstract": "We aimed to compare the time efficiency of three visualization methods in CT colonography and to identify the colonic factors influencing the time for interpretation. Twenty CT colonography examinations were prospectively analysed. Three reading methods were adopted: method 1, primary 2D analysis with the use of virtual endoscopy as problem solver; method 2, primary standard virtual endoscopy with semi-automatic 3D navigation through the colon and use of 2D images as problem solver; method 3, primary virtual endoscopy with automatic 3D navigation and the use of 2D images as problem solver. Method 1 was found to be significantly faster than method 2. Faecal or fluid residuals were reported as major drawbacks in 3D navigations, requiring constant correlation with 2D images; tortuous folds influenced mostly the 2D analysis; diverticula were reported as influencing factor in all three methods. The 3D semi-automatic navigation method tended to increase the time for interpretation in almost all cases. There is, in particular, greatest time efficiency for 2D analysis as compared with 3D manual analysis. Two-dimensional and automated 3D navigation reading have comparable time efficiencies in a routine clinical setting.",
+    "abstract": "We aimed to compare the time efficiency of three visualization methods in CT colonography and to identify the colonic factors influencing the time for interpretation. Twenty CT colonography examinations were prospectively analysed. Three reading methods were adopted. Method 1 is primary 2D analysis with the use of virtual endoscopy as problem solver. Method 2 is primary standard virtual endoscopy with semi-automatic 3D navigation through the colon and use of 2D images as problem solver. Method 3 is primary virtual endoscopy with automatic 3D navigation and the use of 2D images as problem solver. Method 1 was found to be significantly faster than method 2. Faecal or fluid residuals were reported as major drawbacks in 3D navigations, requiring constant correlation with 2D images; tortuous folds influenced mostly the 2D analysis; diverticula were reported as influencing factor in all three methods. The 3D semi-automatic navigation method tended to increase the time for interpretation in almost all cases. There is, in particular, greatest time efficiency for 2D analysis as compared with 3D manual analysis. Two-dimensional and automated 3D navigation reading have comparable time efficiencies in a routine clinical setting.",
     "group": 5,
     "id": 2,
     "direction": "neg"

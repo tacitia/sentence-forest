@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, ControlLabel, FormControl, FormGroup, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Button, ControlLabel, FormControl, FormGroup, ListGroup, ListGroupItem, OverlayTrigger, Tooltip } from 'react-bootstrap';
 import { render } from 'react-dom'
 import { Chart } from 'react-google-charts'
  
@@ -50,13 +50,37 @@ class AbstractTextArea extends React.Component {
   }
 
   render() {
+    const tooltip = (
+      <Tooltip id="tooltip">You will NOT be able to read this summary again after advancing.</Tooltip>
+    );
+    const questions = {
+      1: 'Will users perform analysis more accurately with animated maps',
+      3: 'Will people tend to have more false memories of emotional contents than neutral contents',
+      4: 'Do bilinguals tend to be better at task switching',
+      5: 'Will users perform analysis faster with 3D visualizations'
+    };
+    const suggestions = {
+      1: 'better accuracy with animated visualizations',
+      3: 'that emotional contents are more likely to be falsely recalled',
+      4: 'that billinguals are better at task switching',
+      5: 'faster performance with 3D visualizations'
+    };
+    const placeholderTexts = {
+      1: 'user analysis accuracy with animated v.s. static visualizations',
+      3: 'chances of having false memories with emotional v.s. neutral contents',
+      4: 'bilingualism and task switching ability',
+      5: 'user analysis speed with 2D v.s. 3D visualizations'
+    };
     return (
       <div className="main-content">
         <div>
-          <p><b>Will users perform analysis faster with 3D visualizations? Read the following research study summaries to find out.</b></p>
-          <p>When you are done with one summary, use the button at the bottom of the page to show the next one. You will NOT be able to go back to a summary once you have moved on.</p>
-          <p className="footnote">Hint 1: Some of the study results suggest faster performance with 3D visualizations, while others suggest the contrary, and it is up to you to make a decision after weighing all the findings.</p>
-          <p className="footnote">Hint 2: You don't need to understand every sentence and it is safe to assume any unfamiliar terminology is irrelevant to the task.</p>
+          <p><b>{questions[this.props.abstractGroup]}? Read the following research study summaries to find out.</b></p>
+          Please note:
+          <ul>
+            <li className="footnote">When you are done with one summary, use the button at the bottom of the page to show the next one. You will NOT be able to go back to a summary once you have moved on.</li>
+            <li className="footnote">Some of the study results suggest {suggestions[this.props.abstractGroup]}, while others suggest the contrary, and it is up to you to make a decision after weighing all the findings.</li>
+            <li className="footnote">You don't need to understand every sentence and it is safe to assume any unfamiliar terminology is irrelevant to the task.</li>
+          </ul>
         </div>
         <div className="flexbox-horizontal" id="abstract-text-area">
           <ListGroup className="basic-flex-item" id="abstract-list">
@@ -80,19 +104,21 @@ class AbstractTextArea extends React.Component {
             controlId="userNotes"
             validationState={this.state.notesValidState}
           >
-            <ControlLabel>What have authors of this paper found about <i>user analysis speed with 2D v.s. 3D visualizations</i>? Please copy & paste those findings below.</ControlLabel>
+            <ControlLabel>What have authors of this paper found about <i>{placeholderTexts[this.props.abstractGroup]}</i>? Please copy & paste those findings below.</ControlLabel>
             <p>You will receive a bonus of $0.05 if your response contains all relevant findings and only the relevant findings.</p>
             <FormControl
               style={{height: '100px'}}
               componentClass="textarea"
               value={this.state.userNotes}
-              placeholder="Findings on user analysis speed with 2D v.s. 3D visualizations"
+              placeholder={['Findings on', placeholderTexts[this.props.abstractGroup]].join(' ')}
               onChange={this.handleChange}
             />
           </FormGroup>
         </div>
         <div className="center">
-          <Button bsSize="large" bsStyle="primary" onClick={this.nextButtonClicked}>Show Next Summary</Button>
+          <OverlayTrigger placement="right" overlay={tooltip}>
+            <Button bsSize="large" bsStyle="primary" onClick={this.nextButtonClicked}>Show Next Summary</Button>
+          </OverlayTrigger>
         </div>
       </div>
     )

@@ -25,14 +25,14 @@ const store = createStore(
 d3.json('data/abstracts.json', data => {
   console.log(data);
   store.dispatch(setAbstracts(data));
-  store.dispatch(setAbstractGroup(5));
+  store.dispatch(setAbstractGroup(4));
   store.dispatch(setAbstractOrder('pos-neg'));
 }, error => {
   console.log(error);
 });
 
-store.dispatch(setUserId(getRandomString()));
-store.dispatch(setStudyId('T5-PN-test'));
+store.dispatch(setUserId(getRandomString(16, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')));
+store.dispatch(setStudyId('T3-PN-mturk-batch1'));
 store.dispatch(fetchCSRFToken());
 
 ReactDOM.render(

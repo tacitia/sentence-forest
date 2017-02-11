@@ -5,7 +5,8 @@ import { postAction } from '../actions/metaActions';
 import Instructions from '../components/Instructions';
 
 const mapStateToProps = (state) => {
-  return { 
+  return {
+    abstractGroup: state.conditionReducer.abstractGroup
   };
 };
 

@@ -5,7 +5,8 @@ import { conditionActionTypes } from '../actions/conditionActions';
 const initialState = {
   abstractGroup: 5,
   abstractOrder: 'pos-neg',
-  interfaceCondition: 'text-only',
+//  interfaceCondition: 'text-only',
+  interfaceCondition: 'text-vis',
 //  interfaceStage: 'task'
   interfaceStage: 'instructions'
 };

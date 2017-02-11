@@ -1,9 +1,13 @@
 import React from 'react'
 import { render } from 'react-dom'
+ import { createComponent } from 'react-d3kit';
 import { Chart } from 'react-google-charts'
+import PlainSentenceForestVis from './SentenceForestVis';
 import WordTree from './WordTree';
 import { flatMap } from '../utility';
- 
+
+const SentenceForestVis = createComponent(PlainSentenceForestVis);
+
 class SentenceForest extends React.Component {
 
   constructor(props){
@@ -11,13 +15,13 @@ class SentenceForest extends React.Component {
   }
 
   render() {
-    const sentenceData = flatMap(this.props.abstracts, a => a.sentences.map(s => [s]));
-    console.log(sentenceData)
-    const tree1 = [sentenceData[3], sentenceData[8], sentenceData[14]]
+ //   const sentenceData = flatMap(this.props.abstracts, a => a.sentences.map(s => [s]));
+//    const tree1 = [sentenceData[3], sentenceData[8], sentenceData[14]]
     return (
       <div>
-        <WordTree sentences={tree1} anchor={"results"}>
-        </WordTree>
+        <SentenceForestVis 
+          data={this.props.sentenceForestData}
+        />
       </div>
     );
   }

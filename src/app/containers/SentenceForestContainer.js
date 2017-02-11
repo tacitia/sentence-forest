@@ -6,7 +6,7 @@ import SentenceForest from '../components/SentenceForest';
 const mapStateToProps = (state) => {
   return { 
     abstracts: getAbstractWithSentenceArrays(state),
-    sentenceForest: getSentenceForest(state)
+    sentenceForestData: getSentenceForest(state)
   };
 };
 

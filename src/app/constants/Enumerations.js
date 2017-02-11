@@ -1,2 +1,2 @@
-// export const API_URL = 'localhost:8000';
-export const API_URL = 'brainconnect-v2.cs.brown.edu';
+// export const API_URL = 'localhost/api';
+export const API_URL = 'brainconnect-v2.cs.brown.edu/api';

@@ -60,6 +60,7 @@ export function postAction(target, value, description) {
       .then(response => response.json())
       .then(json => {
         console.log('action posted');
+        console.log(json);
       });   
   }
 }

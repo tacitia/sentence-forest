@@ -32,7 +32,8 @@
     "react-vega": "^1.0.1",
     "redux": "^3.5.2",
     "stemmer": "^1.0.0",
-    "stopwords-en": "^0.3.0"
+    "stopwords-en": "^0.3.0",
+    "talisman": "0.17.0"
   },
   "devDependencies": {
     "babel-core": "~6.3.21",

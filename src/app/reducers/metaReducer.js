@@ -15,6 +15,10 @@ const metaReducer = (state = initialState, action) => {
       return Object.assign({}, state, {
         studyId: action.payload.studyId
       });
+    case metaActionTypes.SET_USER_ID:
+      return Object.assign({}, state, {
+        userId: action.payload.userId
+      });
     default:
       return state;
   }

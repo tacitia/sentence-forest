@@ -2,14 +2,15 @@ import { connect } from 'react-redux';
 
 import { setSelectedAbstract } from '../actions/abstractActions';
 import { setInterfaceStage } from '../actions/conditionActions';
-import { postResponse } from '../actions/metaActions';
+import { postAction, postResponse } from '../actions/metaActions';
 import { getAbstractWithSentenceArrays } from '../selectors/abstractSelectors';
 import AbstractTextArea from '../components/AbstractTextArea';
 
 const mapStateToProps = (state) => {
   return { 
     abstracts: getAbstractWithSentenceArrays(state),
-    selectedAbstract: state.abstractReducer.selectedAbstract
+    selectedAbstract: state.abstractReducer.selectedAbstract,
+    abstractGroup: state.conditionReducer.abstractGroup
   };
 };
 
