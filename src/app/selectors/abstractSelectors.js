@@ -2,6 +2,7 @@ import { createSelector } from 'reselect';
 import { flatMap } from '../utility';
 import porterStemmer from 'talisman/stemmers/porter';
 import treebank from 'talisman/tokenizers/words/treebank';
+import shortid from 'shortid';
 import stopwords from 'stopwords-en';
 
 const getAbstracts = (state) => state.abstractReducer.abstracts;
@@ -43,11 +44,35 @@ export const getSentenceForest = createSelector(
       content: s
     })));
     const anchorFunnels = findAnchorFunnels(sentences);
-    const sentencesWithAnchors1 = constructSentenceTree(['monolingu', 'bilingu'], sentences);
-    const sentencesWithAnchors2 = constructSentenceTree(['bilingu'], sentences);
-    return [{anchors: ['monolingu', 'bilingu'], sentences: sentencesWithAnchors1}, {anchors: ['bilingu'], sentences: sentencesWithAnchors2}];
+    const anchors1 = [{
+      stem: 'monolingu',
+      display: 'monolingual',
+      level: 0,
+      id: shortid.generate(),
+      segments: []
+    }, {
+      stem: 'bilingu',
+      display: 'bilingual',
+      level: 0,
+      id: shortid.generate(),
+      segments: []      
+    }];
+    const anchors2 = [
+      stem: 'bilingu',
+      display: 'bilingual',
+      level: 0,
+      id: shortid.generate(),
+      segments: []      
+    ];
+    const sentencesWithAnchors1 = constructSentenceTree(anchors1, sentences);
+    const sentencesWithAnchors2 = constructSentenceTree(anchors2, sentences);
+    return [{anchors: anchors1, sentences: sentencesWithAnchors1}, {anchors: anchors2, sentences: sentencesWithAnchors2}];
   }
 );
+
+function mergeAnchors(anchors) {
+  return anchors.map(a => [a]);
+}
 
 // Takes in one funnel and a group of sentences, extract all sentences containing the given funnel,
 // and produce the merged sentence "tree"
@@ -57,7 +82,8 @@ function constructSentenceTree(anchors, sentences) {
     .filter(s => {
       var containAllAnchors = true;
       anchors.forEach(w => {
-        if (!s.content.includes(w)) {
+        // TODO: change this to use isDerivedWord
+        if (!s.content.includes(w.stem)) {
           containAllAnchors = false;
         }
       })
@@ -65,19 +91,32 @@ function constructSentenceTree(anchors, sentences) {
     })
     .map(s => {
       const segments = [];
-//      console.log(s)
       const tokens = treebank(s.content);
       var startIndex = 0;
       var anchorPos = 0;
       var i = 0;
       while (anchorPos < anchors.length && i < tokens.length) {
         const t = tokens[i];
-        if (IsDerivedWord(anchors[anchorPos], t)) {
+        if (IsDerivedWord(anchors[anchorPos].stem, t)) {
+          const prevAnchor = anchors[anchorPos].id;
+          const nextAnchor = anchorPos+1 >== anchors.length ? null : anchors[anchorPos+1].id
           if (i > startIndex) {
-            segments.push(tokens.slice(startIndex, i));
+            const segment = {
+              content: tokens.slice(startIndex, i),
+              prevAnchor,
+              nextAnchor
+            };
+            segments.push(segment);
+            anchors[anchorPos].segments.push(segment);
           }
           else {
-            segments.push(['']);
+            const segment = {
+              content: '',
+              prevAnchor,
+              nextAnchor
+            }
+            segments.push(segment);
+            anchors[anchorPos].segments.push(segment)
           }
           startIndex = i+1;
           anchorPos += 1;
@@ -85,10 +124,19 @@ function constructSentenceTree(anchors, sentences) {
         i += 1;
       }
       if (startIndex < tokens.length) {
-        segments.push(tokens.slice(startIndex, tokens.length));
+        const segment = {
+          content: tokens.slice(startIndex, tokens.length),
+          prevAnchor: anchors[anchorPos].id,
+          nextAnchor: null
+        };
+        segments.push(segment);
+        anchors[anchorPos].segments.push(segment)        
       }
+      anchors.forEach(a => {
+        a.segments = segments.
+      });
       return Object.assign({}, s, {
-        anchors,
+//        anchors,
         segments
       });
     })

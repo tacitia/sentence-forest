@@ -57,27 +57,21 @@ function constructor(skeleton){
       .enter()
       .append('g');
 
+    computeAnchorProperties(data);
     visualizeAnchors(treeGroups, data);
-      /*
-      .each(d => { 
-        console.log(this)
-        d3.select(this)
-
-          .append('text')
-          .text('peter')
-//        visualizeTree(d, d3.select(this)); 
-      }) */
-//      .call(visualizeTree);
-//    console.log(treeGroups)
-//    treeGroups[0].forEach(g => { console.log(g); visualizeTree(g) });
   } 
 
   function visualizeAnchors(treeGroup, treeData) {
     // Step 1: Draw the anchor words
-    treeGroup
-      .selectAll('.anchor')
+    const anchorStripes = treeGroup
+      .selectAll('.anchor-stripe')
       .data(d => d.anchors)
       .enter()
+      .append('g')
+      .attr('x', );
+
+    anchorStripes.selectAll('.anchor')
+      .data(d => d)
       .append('text')
       .attr('class', 'anchor')
       .text(d => d)
@@ -102,9 +96,53 @@ function constructor(skeleton){
     // Step 4: Celebrate 
   }
 
-  // Compute anchor positions based on the maximum number of words in each segment
-  function computeAnchorPositions(treeData) {
+  function computeAnchorProperties(treeData) {
+    treeData.anchors.forEach(anchorStripe => {
+      anchorStripe.forEach(a => {
+        a.vis = {};
+      })
+    })
+    computeAnchorX(treeData);
+    computeAnchorY(treeData);
+  }
 
+
+  // Information needed: 
+  // For each anchor, what's the length of the longest sentence that comes after it and 
+  // other anchors on the same level                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              
+  function computeAnchorX(treeData) {
+    var totalX = 0;
+    // Loop through each anchor stripe
+    treeData.anchors.forEach((anchorStripe, i) => {
+      var maxLength = -1;
+      anchorStripe.forEach(a => {
+        a.segments.forEach(s => {
+          const charLength = s.join(' ').length;
+          if (charLength > maxLength) {
+            maxLength = charLength;
+          }
+        });
+      });
+      // Set the maximum number characters that can be displayed between two anchor points to be 100
+      const xLength = Math.min(maxLength, 100) * 10;
+      totalX += xLength;
+      anchorStrip.forEach(a => {
+        a.vis.x = xLength;
+      })
+    });
+  }
+
+  // Compute anchor positions based on the maximum number of words in each segment
+  function computeAnchorY(treeData, canvasHeight) {
+    const sentenceHeight = canvasHeight / treeData.sentences.length;
+    treeData.anchors.forEach(anchorStripe => {
+      var totalSpaceAbove = 0;
+      anchorStripe.forEach(a => {
+        const anchorSegmentsHeight = sentenceHeight * a.segments.length;
+        a.vis.y = totalSpaceAbove + anchorSegmentsHeight / 2;
+        totalSpaceAbove += anchorSegmentsHeight;
+      })
+    });
   }
 
   return skeleton.mixin({

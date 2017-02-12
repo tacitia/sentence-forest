@@ -33,6 +33,7 @@
     "redux": "^3.5.2",
     "stemmer": "^1.0.0",
     "stopwords-en": "^0.3.0",
+    "shortid": "2.2.6",
     "talisman": "0.17.0"
   },
   "devDependencies": {
