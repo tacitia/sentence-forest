@@ -7,8 +7,8 @@ const initialState = {
   abstractOrder: 'pos-neg',
 //  interfaceCondition: 'text-only',
   interfaceCondition: 'text-vis',
-//  interfaceStage: 'task'
-  interfaceStage: 'instructions'
+  interfaceStage: 'task'
+//  interfaceStage: 'instructions'
 };
 
 // This reducer manages two types of references: bookmarks and citations

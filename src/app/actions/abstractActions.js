@@ -1,6 +1,7 @@
 export const abstractActionTypes = {
   SET_ABSTRACTS: 'SET_ABSTRACTS',
-  SET_SELECTED_ABSTRACT: 'SET_SELECTED_ABSTRACT'
+  SET_SELECTED_ABSTRACT: 'SET_SELECTED_ABSTRACT',
+  SET_HOVER_SENTENCE: 'SET_HOVER_SENTENCE'
 };
 
 export function setAbstracts(abstracts) {
@@ -17,6 +18,15 @@ export function setSelectedAbstract(id) {
     type: abstractActionTypes.SET_SELECTED_ABSTRACT,
     payload: {
       id
+    }
+  }
+}
+
+export function setHoverSentence(sentenceId) {
+  return {
+    type: abstractActionTypes.SET_HOVER_SENTENCE,
+    payload: {
+      sentenceId
     }
   }
 }

@@ -15,12 +15,17 @@ class SentenceForest extends React.Component {
   }
 
   render() {
- //   const sentenceData = flatMap(this.props.abstracts, a => a.sentences.map(s => [s]));
-//    const tree1 = [sentenceData[3], sentenceData[8], sentenceData[14]]
+    const sentenceForestData = {
+      data: this.props.sentenceForestData,
+      states: {
+        hoverSentence: this.props.hoverSentence
+      }
+    };
     return (
       <div>
         <SentenceForestVis 
-          data={this.props.sentenceForestData}
+          data={sentenceForestData}
+          onSentenceMouseOver={this.props.setHoverSentence}
         />
       </div>
     );

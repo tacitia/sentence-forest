@@ -14,6 +14,8 @@ class AbstractTextArea extends React.Component {
     this.abstractClicked = this.abstractClicked.bind(this);
     this.nextButtonClicked = this.nextButtonClicked.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.handleMouseoverSentence = this.handleMouseoverSentence.bind(this);
+    this.handleMouseoutSentence = this.handleMouseoutSentence.bind(this);
   }
 
   abstractClicked(abstract) {
@@ -49,6 +51,15 @@ class AbstractTextArea extends React.Component {
     }
   }
 
+  handleMouseoverSentence(sentence) {
+    console.log(sentence)
+    this.props.onSentenceHover(sentence.id);
+  }
+
+  handleMouseoutSentence() {
+    this.props.onSentenceHover(-1);
+  }
+
   render() {
     const tooltip = (
       <Tooltip id="tooltip">You will NOT be able to read this summary again after advancing.</Tooltip>
@@ -71,6 +82,11 @@ class AbstractTextArea extends React.Component {
       4: 'bilingualism and task switching ability',
       5: 'user analysis speed with 2D v.s. 3D visualizations'
     };
+    if (this.props.abstracts[this.props.selectedAbstract]) {
+      console.log('abstract sentences')
+      console.log(this.props.abstracts[this.props.selectedAbstract].sentences)
+    }
+    console.log(this.props.hoverSentence)
     return (
       <div className="main-content">
         <div>
@@ -96,7 +112,16 @@ class AbstractTextArea extends React.Component {
           </ListGroup>
           <div className="basic-flex-item" id="abstract-content-area">
             <p><b>Title: </b>{this.props.abstracts.length > 0 ?  this.props.abstracts[this.props.selectedAbstract].title : ''}</p>
-            <p><b>Abstract: </b>{this.props.abstracts.length > 0 ? this.props.abstracts[this.props.selectedAbstract].abstract : ''}</p>
+            <p><b>Abstract: </b>{this.props.abstracts.length > 0 
+              ? this.props.abstracts[this.props.selectedAbstract].sentences.map(s => {
+                return <span 
+                  className={s.id === this.props.hoverSentence ? 'hover-sentence' : ''}
+                  onMouseOver={() => this.handleMouseoverSentence(s)}
+                  onMouseOut={this.handleMouseoutSentence}
+                >{s.content + '. '}</span>;
+              }) 
+              : ''}
+            </p>
           </div>
         </div>
         <div>

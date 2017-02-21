@@ -3,6 +3,7 @@ import { abstractActionTypes } from '../actions/abstractActions';
 const initialState = {
   abstracts: null,
   selectedAbstract: 0,
+  hoverSentence: -1
 };
 const abstractReducer = (state = initialState, action) => {
   switch(action.type) {
@@ -12,7 +13,12 @@ const abstractReducer = (state = initialState, action) => {
       });
     case abstractActionTypes.SET_SELECTED_ABSTRACT:
       return Object.assign({}, state, {
-        selectedAbstract: action.payload.id
+        selectedAbstract: action.payload.id,
+        hoverSentence: -1
+      });
+    case abstractActionTypes.SET_HOVER_SENTENCE:
+      return Object.assign({}, state, {
+        hoverSentence: action.payload.sentenceId
       });
     default:
       return state;

@@ -1,5 +1,6 @@
 @import 'styles/_common';
 @import 'styles/_flexbox';
+@import 'styles/_sentenceForestVis';
 
 $main-font: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 
@@ -93,6 +94,11 @@ header {
       #abstract-content-area {
         margin: 0 20px 0 50px;
         flex: 0 0 60%;
+
+        .hover-sentence {
+          color: #4682b4;
+          font-weight: 600;
+        }
       }
     }
 

@@ -1,16 +1,19 @@
 import { connect } from 'react-redux';
 
-import { setSelectedAbstract } from '../actions/abstractActions';
+import { setSelectedAbstract, setHoverSentence } from '../actions/abstractActions';
 import { setInterfaceStage } from '../actions/conditionActions';
 import { postAction, postResponse } from '../actions/metaActions';
 import { getAbstractWithSentenceArrays } from '../selectors/abstractSelectors';
 import AbstractTextArea from '../components/AbstractTextArea';
 
 const mapStateToProps = (state) => {
+  console.log('update abstract text area')
+  console.log(state.abstractReducer.hoverSentence)
   return { 
     abstracts: getAbstractWithSentenceArrays(state),
     selectedAbstract: state.abstractReducer.selectedAbstract,
-    abstractGroup: state.conditionReducer.abstractGroup
+    abstractGroup: state.conditionReducer.abstractGroup,
+    hoverSentence: state.abstractReducer.hoverSentence
   };
 };
 
@@ -22,6 +25,9 @@ const mapDispatchToProps = (dispatch) => {
     },
     onUserNotesSubmit: (abstractId, notes) => {
       dispatch(postResponse('userNotes-' + abstractId, notes));
+    },
+    onSentenceHover: (sentenceId) => {
+      dispatch(setHoverSentence(sentenceId));
     },
     allArticlesRead: () => {
       dispatch(setInterfaceStage('exit-survey'));

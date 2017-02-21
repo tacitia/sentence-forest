@@ -47,7 +47,9 @@ var config = {
         test: /\.scss$/,
         exclude: /(node_modules|bower_components)/,
         loaders: ['style', 'css', 'sass']
-      }
+      },
+      { test: /\.coffee$/, loader: "coffee-loader" },
+      { test: /\.(coffee\.md|litcoffee)$/, loader: "coffee-loader?literate" }
     ],
   },
   resolve: {

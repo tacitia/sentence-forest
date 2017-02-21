@@ -9,8 +9,28 @@ const getAbstracts = (state) => state.abstractReducer.abstracts;
 const getConditions = (state) => state.conditionReducer;
 const customStopWords = ['1', '2', 'wa', 'thi', 'versu', 'set', 'map'];
 
+const getAllAbstractsWithSentenceArrays = createSelector(
+  [ getAbstracts ],
+  (abstracts) => {
+    if (!abstracts) return [];
+    const results = abstracts
+      .map((a, i) => {
+        a.sentences = a.abstract
+          .split('. ')
+          .map((s, j) => ({
+            abstractOrder: i,
+            sentencePos: j,
+            content: s,
+            id: shortid.generate()            
+          }));
+        return a;
+      });
+    return results;      
+  }
+);
+
 export const getAbstractWithSentenceArrays = createSelector(
-  [ getAbstracts, getConditions ], 
+  [ getAllAbstractsWithSentenceArrays, getConditions ], 
   (abstracts, conditions) => {
     if (!abstracts) return [];
     const results = abstracts
@@ -26,10 +46,6 @@ export const getAbstractWithSentenceArrays = createSelector(
         else {
           return 0;
         }
-      })
-      .map(a => {
-        a.sentences = a.abstract.split('. ');
-        return a;
       });
     return results;
   }
@@ -38,40 +54,89 @@ export const getAbstractWithSentenceArrays = createSelector(
 export const getSentenceForest = createSelector(
   [ getAbstractWithSentenceArrays ], 
   (abstractsWithSentenceArrays) => {
-    const sentences = flatMap(abstractsWithSentenceArrays, (a, i) => a.sentences.map((s, j) => ({
-      abstractOrder: i,
-      sentencePos: j,
-      content: s
-    })));
-    const anchorFunnels = findAnchorFunnels(sentences);
-    const anchors1 = [{
-      stem: 'monolingu',
-      display: 'monolingual',
-      level: 0,
-      id: shortid.generate(),
-      segments: []
-    }, {
-      stem: 'bilingu',
-      display: 'bilingual',
-      level: 0,
-      id: shortid.generate(),
-      segments: []      
-    }];
-    const anchors2 = [
-      stem: 'bilingu',
-      display: 'bilingual',
-      level: 0,
-      id: shortid.generate(),
-      segments: []      
+    const sentences = flatMap(abstractsWithSentenceArrays, a => a.sentences);
+    if (sentences.length === 0 ) {
+      return [];
+    }
+//    const anchorFunnels = findAnchorFunnels(sentences);
+    const anchorFunnels = [
+/*      generateAnchors([
+        { stem: 'bilingu', display: 'bilingual' },  
+        { stem: 'switch', display: 'task-switching' }, 
+        { stem: 'monolingu', display: 'monolingual' }
+      ]),
+      generateAnchors([
+        { stem: 'monolingu', display: 'monolingual' }, 
+        { stem: 'bilingu', display: 'bilingual' }
+      ]), */
+      generateAnchors([
+        { stem: 'bilingu', display: 'bilingual' }, 
+        { stem: 'monolingu', display: 'monolingual' }
+      ]),
+/*      generateAnchors([
+        { stem: 'result', display: 'results' }, 
+        { stem: 'bilingu', display: 'bilingual' }
+      ]),
+      generateAnchors([
+        { stem: 'result', display: 'results' }, 
+        { stem: 'monolingu', display: 'monolingual' }, 
+      ]),
+      generateAnchors([
+        { stem: 'bilingu', display: 'bilingual' }
+      ]) */
     ];
-    const sentencesWithAnchors1 = constructSentenceTree(anchors1, sentences);
-    const sentencesWithAnchors2 = constructSentenceTree(anchors2, sentences);
-    return [{anchors: anchors1, sentences: sentencesWithAnchors1}, {anchors: anchors2, sentences: sentencesWithAnchors2}];
+    var remainingSentences = sentences;
+    var anchorFunnelPos = 0;
+    const forest = [];
+    while (anchorFunnelPos < anchorFunnels.length && remainingSentences.length > 0) {
+      const anchors = anchorFunnels[anchorFunnelPos];
+      const sentencePartitions = _.partition(remainingSentences, s => {
+        const tokens = treebank(s.content);
+        var anchorPos = 1; // Skip the dummy start anchor
+        tokens.forEach(t => {
+          if (anchorPos >= anchors.length) {
+            return true;
+          }
+          if (IsDerivedWord(anchors[anchorPos].stem, t)) {
+            anchorPos += 1;
+          }
+        });
+        return anchorPos >= anchors.length;
+      });
+      const sentencesWithAnchors = constructSentenceTree(anchors, sentencePartitions[0]);
+      remainingSentences = sentencePartitions[1];
+      anchorFunnelPos += 1;
+      if (sentencesWithAnchors.length > 0) {
+        forest.push({
+          anchors,
+          sentences: sentencesWithAnchors
+        });
+      }
+    }
+    ;
+//    forest.forEach(anchorSentencesPair => mergeAnchors(anchorSentencesPair));
+    console.log('return merged anchors')
+    return mergeAnchors(forest);
+//    return [{anchors: mergeAnchors(anchors1), sentences: sentencesWithAnchors1}, {anchors: mergeAnchors(anchors2), sentences: sentencesWithAnchors2}];
   }
 );
 
-function mergeAnchors(anchors) {
-  return anchors.map(a => [a]);
+function generateAnchors(names) {
+  const augmentedNames = [ {stem: '', display: ''}, ...names ];
+  return augmentedNames.map(n => Object.assign({}, n, {
+    level: 0,
+    id: shortid.generate(),
+    segments: []
+  }))
+}
+
+function mergeAnchors(forest) {
+  return forest.map(f => {
+    return {
+      anchors: f.anchors.map(a => [a]),
+      sentences: f.sentences
+    }
+  });
 }
 
 // Takes in one funnel and a group of sentences, extract all sentences containing the given funnel,
@@ -79,66 +144,53 @@ function mergeAnchors(anchors) {
 // Segments are added as part of the sentence object
 function constructSentenceTree(anchors, sentences) {
   return _(sentences)
-    .filter(s => {
-      var containAllAnchors = true;
-      anchors.forEach(w => {
-        // TODO: change this to use isDerivedWord
-        if (!s.content.includes(w.stem)) {
-          containAllAnchors = false;
-        }
-      })
-      return containAllAnchors;
-    })
     .map(s => {
       const segments = [];
       const tokens = treebank(s.content);
       var startIndex = 0;
-      var anchorPos = 0;
+      var anchorPos = 1; // Skip the dummy start anchor
       var i = 0;
+      var prevAnchor = anchors[0];
+      var nextAnchor = anchors[1];
+      // TODO: debug the #anchor=1 case
       while (anchorPos < anchors.length && i < tokens.length) {
         const t = tokens[i];
         if (IsDerivedWord(anchors[anchorPos].stem, t)) {
-          const prevAnchor = anchors[anchorPos].id;
-          const nextAnchor = anchorPos+1 >== anchors.length ? null : anchors[anchorPos+1].id
+          var content = [''];
           if (i > startIndex) {
-            const segment = {
-              content: tokens.slice(startIndex, i),
-              prevAnchor,
-              nextAnchor
-            };
-            segments.push(segment);
-            anchors[anchorPos].segments.push(segment);
+            content = tokens.slice(startIndex, i);
           }
-          else {
-            const segment = {
-              content: '',
-              prevAnchor,
-              nextAnchor
-            }
-            segments.push(segment);
-            anchors[anchorPos].segments.push(segment)
-          }
+          const segment = {
+            content,
+            prevAnchor,
+            nextAnchor,
+            originalSentence: s
+          };
+          segments.push(segment);
+          anchors[anchorPos-1].segments.push(segment);
           startIndex = i+1;
           anchorPos += 1;
+          prevAnchor = anchors[anchorPos-1];
+          nextAnchor = anchorPos >= anchors.length ? null : anchors[anchorPos];
         }
         i += 1;
       }
       if (startIndex < tokens.length) {
         const segment = {
           content: tokens.slice(startIndex, tokens.length),
-          prevAnchor: anchors[anchorPos].id,
-          nextAnchor: null
+          prevAnchor: anchors[anchors.length-1],
+          nextAnchor: null,
+          originalSentence: s
         };
         segments.push(segment);
-        anchors[anchorPos].segments.push(segment)        
+        anchors[anchors.length-1].segments.push(segment);   
       }
-      anchors.forEach(a => {
-        a.segments = segments.
-      });
-      return Object.assign({}, s, {
+      s.segments = segments;
+      return s;
+//      return Object.assign({}, s, {
 //        anchors,
-        segments
-      });
+//        segments
+//      });
     })
     .value();
 }
@@ -212,7 +264,9 @@ function findAnchorFunnels(sentences) {
       funnelSentenceMap[anchorFunnel].push(s);
     }
   });
+  console.log('all anchor funnels')
   console.log(allAnchorFunnels)
+  console.log('funnel sentence map')
   console.log(funnelSentenceMap);
 }
 
