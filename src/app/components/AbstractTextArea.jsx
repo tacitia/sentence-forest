@@ -64,47 +64,33 @@ class AbstractTextArea extends React.Component {
     const tooltip = (
       <Tooltip id="tooltip">You will NOT be able to read this summary again after advancing.</Tooltip>
     );
-    const questions = {
-      1: 'Will users perform analysis more accurately with animated maps',
-      3: 'Will people tend to have more false memories of emotional contents than neutral contents',
-      4: 'Do bilinguals tend to be better at task switching',
-      5: 'Will users perform analysis faster with 3D visualizations'
-    };
-    const suggestions = {
-      1: 'better accuracy with animated visualizations',
-      3: 'that emotional contents are more likely to be falsely recalled',
-      4: 'that billinguals are better at task switching',
-      5: 'faster performance with 3D visualizations'
-    };
     const placeholderTexts = {
       1: 'user analysis accuracy with animated v.s. static visualizations',
       3: 'chances of having false memories with emotional v.s. neutral contents',
       4: 'bilingualism and task switching ability',
       5: 'user analysis speed with 2D v.s. 3D visualizations'
     };
-    if (this.props.abstracts[this.props.selectedAbstract]) {
-      console.log('abstract sentences')
-      console.log(this.props.abstracts[this.props.selectedAbstract].sentences)
-    }
-    console.log(this.props.hoverSentence)
+    const colorPalette = ["#5e904e", "#dc58ea", "#2499d7", "#eb5e9b", "#8270f6", "#0ca82e"]; // Lighter
     return (
-      <div className="main-content">
-        <div>
-          <p><b>{questions[this.props.abstractGroup]}? Read the following research study summaries to find out.</b></p>
-          Please note:
-          <ul>
-            <li className="footnote">When you are done with one summary, use the button at the bottom of the page to show the next one. You will NOT be able to go back to a summary once you have moved on.</li>
-            <li className="footnote">Some of the study results suggest {suggestions[this.props.abstractGroup]}, while others suggest the contrary, and it is up to you to make a decision after weighing all the findings.</li>
-            <li className="footnote">You don't need to understand every sentence and it is safe to assume any unfamiliar terminology is irrelevant to the task.</li>
-          </ul>
-        </div>
-        <div className="flexbox-horizontal" id="abstract-text-area">
+      <div>
+        <div className={"flexbox-" + this.props.layout} id="abstract-text-area">
           <ListGroup className="basic-flex-item" id="abstract-list">
             {
               this.props.abstracts.map((a,i) => 
                 <ListGroupItem 
                   key={a.group+'-'+a.id} 
                   active={i===this.props.selectedAbstract}>
+                    { this.props.showAbstractLabel
+                        ? <div style={{
+                            backgroundColor: colorPalette[i], 
+                            width: '12px', 
+                            height: '15px', 
+                            display:'inline-block',
+                            borderRadius: '2px',
+                            marginRight: '5px'
+                          }}></div>
+                        : <div></div>
+                    }
                     {a.title}
                 </ListGroupItem>
               )
@@ -115,6 +101,7 @@ class AbstractTextArea extends React.Component {
             <p><b>Abstract: </b>{this.props.abstracts.length > 0 
               ? this.props.abstracts[this.props.selectedAbstract].sentences.map(s => {
                 return <span 
+                  key={s.id}
                   className={s.id === this.props.hoverSentence ? 'hover-sentence' : ''}
                   onMouseOver={() => this.handleMouseoverSentence(s)}
                   onMouseOut={this.handleMouseoutSentence}

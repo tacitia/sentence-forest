@@ -7,13 +7,13 @@ import { getAbstractWithSentenceArrays } from '../selectors/abstractSelectors';
 import AbstractTextArea from '../components/AbstractTextArea';
 
 const mapStateToProps = (state) => {
-  console.log('update abstract text area')
-  console.log(state.abstractReducer.hoverSentence)
   return { 
     abstracts: getAbstractWithSentenceArrays(state),
     selectedAbstract: state.abstractReducer.selectedAbstract,
     abstractGroup: state.conditionReducer.abstractGroup,
-    hoverSentence: state.abstractReducer.hoverSentence
+    hoverSentence: state.conditionReducer.interfaceCondition === 'text-vis' ? state.abstractReducer.hoverSentence : -1,
+    layout: state.conditionReducer.interfaceCondition === 'text-vis' ? 'vertical' : 'horizontal',
+    showAbstractLabel: state.conditionReducer.interfaceCondition === 'text-vis'
   };
 };
 

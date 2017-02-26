@@ -8,7 +8,8 @@ const mapStateToProps = (state) => {
   return { 
     abstracts: getAbstractWithSentenceArrays(state),
     sentenceForestData: getSentenceForest(state),
-    hoverSentence: state.abstractReducer.hoverSentence
+    hoverSentence: state.abstractReducer.hoverSentence,
+    selectedAbstract: state.abstractReducer.selectedAbstract
   };
 };
 

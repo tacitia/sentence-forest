@@ -23,7 +23,6 @@ const store = createStore(
 );
 
 d3.json('data/abstracts.json', data => {
-  console.log(data);
   store.dispatch(setAbstracts(data));
   store.dispatch(setAbstractGroup(4));
   store.dispatch(setAbstractOrder('pos-neg'));
@@ -32,7 +31,8 @@ d3.json('data/abstracts.json', data => {
 });
 
 store.dispatch(setUserId(getRandomString(16, '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ')));
-store.dispatch(setStudyId('T3-PN-mturk-batch1'));
+// store.dispatch(setStudyId('T3-NP-mturk-batch1'));
+store.dispatch(setStudyId('test'));
 store.dispatch(fetchCSRFToken());
 
 ReactDOM.render(

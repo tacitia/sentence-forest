@@ -1,18 +1,29 @@
 import d3 from 'd3';
 import d3Kit from 'd3kit';
 import d3Tip from 'd3-tip';
+import { getTextWidth } from '../utility.js';
 
 d3.tip = d3Tip;
+
+// const colorPalette = ["#4f8c9d", "#4d943a", "#b55edb", "#427ff5", "#ce5d8e", "#9a789e"]; // Darker
+const colorPalette = ["#5e904e", "#dc58ea", "#2499d7", "#eb5e9b", "#8270f6", "#0ca82e"]; // Lighter
 
 const DEFAULT_OPTIONS = {
   margin: {top: 10, right: 10, bottom: 10, left: 10},
   initialWidth: 2000,
-  initialHeight: 300,
+  initialHeight: 1600,
   sentenceHeight: 50,
   anchorWidth: 100,
-  treeGap: 20,
+  treeGap: 10,
   segmentWidths: [],
-  paperColorScale: d3.scale.category10()
+  anchorCharWidth: 10,
+  anchorFontSize: 16,
+  sentenceFontSize: 13,
+  anchorFontFamily: 'Roboto',
+  sentenceFontFamily: 'Roboto',
+  paperColorScale: d3.scale.ordinal()
+    .domain([0, 1, 2, 3, 4, 5])
+    .range(colorPalette)
 };
 
 const CUSTOM_EVENTS = [
@@ -55,11 +66,9 @@ function constructor(skeleton){
     //    # of anchors: anchors.length
     //    # of papers: amount of vertical space needed
 //    visualize(data.sentenceForest[0], 0, skeleton.getInnerWidth(), skeleton.getInnerHeight());
-
-    console.log('visualization data')
-    console.log(skeleton.data())
-
-    computeVisProperties(data);
+    if (!data) return;
+    const sortedData = sortTrees(data);
+    computeVisProperties(sortedData);
 
     const treeGroups = layers.get('forest')
       .selectAll('.tree')
@@ -77,13 +86,42 @@ function constructor(skeleton){
     visualizeLinks(individualSegment);
 
     // Step 4: Celebrate & take care of external-initiated updates
-    layers.get('forest').selectAll('.segment-text')
-      .classed('segment-text-highlight', d => {
-        console.log(d.originalSentence.id)
+    const segmentTexts = layers.get('forest').selectAll('.segment-text');
+    segmentTexts.classed('segment-text-highlight', d => {
         return (d.originalSentence.id === skeleton.data().states.hoverSentence)
+      });
+    layers.get('forest').selectAll('.segment')
+      .classed('segment-out-focus', d => {
+        return d.originalSentence.abstractOrder !== skeleton.data().states.selectedAbstract;
       });
 
   } 
+
+  function sortTrees(trees) {
+    console.log(trees);
+    return trees.sort((treeA, treeB) => {
+      const sentencePositionsA = treeA.sentences.map(s => s.sentencePos);
+      const sentencePositionsB = treeB.sentences.map(s => s.sentencePos);
+      const medianA = computeMedian(sentencePositionsA);
+      const medianB = computeMedian(sentencePositionsB);
+      if (medianA !== medianB) {
+        return medianA - medianB;
+      }
+      else {
+        return _.mean(sentencePositionsA) - _.mean(sentencePositionsB);
+      }
+    });
+  }
+
+  function computeMedian(numbers) {
+    if (numbers.length % 2 === 0) {
+      const mid = numbers.length / 2;
+      return (numbers[mid-1] + numbers[mid]) / 2;
+    }
+    else {
+      return numbers[(numbers.length-1) / 2];
+    }
+  }
 
   function visualizeAnchors(treeGroup, treeData) {
     const anchorStripes = treeGroup
@@ -100,8 +138,13 @@ function constructor(skeleton){
       .append('text')
       .attr('class', 'anchor')
       .text(d => d.display)
+      .attr('font-size', options.anchorFontSize)
+      .attr('font-family', options.anchorFontFamily)
       .attr('y', d => d.vis.y + 3)
-      .attr('class', 'anchor');
+      .attr('class', 'anchor')
+      .on('mouseover', a => {
+        console.log(a);
+      });
 
     return anchorStripes;
   }
@@ -113,7 +156,9 @@ function constructor(skeleton){
       .append('g')
       .attr('class', 'segment-group')
       .attr('transform', (d, i) => {
-        const left = d.stem === '' ? 0 : options.anchorWidth;
+        const left = d.stem === '' 
+        ? 0 
+        : getTextWidth(d.display, options.anchorFontSize, options.anchorFontFamily);
         return `translate(${left}, ${d.vis.segmentTop})`
       });      
 
@@ -126,18 +171,40 @@ function constructor(skeleton){
 
     individualSegment
       .append('rect')
-      .attr('x', 10)
+      .attr('x', d => d.prevAnchor.stem === '' ? 10 : 28)
+      .attr('y', 20)
       .attr('width', (d, i) => {
         const widthOffset = 35;
-        return d.prevAnchor.stem == '' ? d.prevAnchor.vis.segmentWidth - widthOffset : d.prevAnchor.vis.segmentWidth - options.anchorWidth - widthOffset;
+        const baseWidth = d.prevAnchor.vis.segmentWidth - widthOffset ;
+        return d.prevAnchor.stem === '' 
+          ? baseWidth
+          : baseWidth - getTextWidth(d.prevAnchor.display, options.anchorFontSize, options.anchorFontFamily) - 17;
+      })
+      .attr('height', options.sentenceHeight - 40)
+      .attr('fill', d => options.paperColorScale(d.originalSentence.abstractOrder))
+      .attr('class', 'segment-background');
+
+    individualSegment
+      .append('rect')
+      .attr('x', d => d.prevAnchor.stem === '' ? 10 : 28)
+      .attr('y', 0)
+      .attr('width', (d, i) => {
+        const widthOffset = 35;
+        const baseWidth = d.prevAnchor.vis.segmentWidth - widthOffset ;
+        return d.prevAnchor.stem === '' 
+          ? baseWidth
+          : baseWidth - getTextWidth(d.prevAnchor.display, options.anchorFontSize, options.anchorFontFamily) - 10;
       })
       .attr('height', options.sentenceHeight)
-      .attr('fill', d => options.paperColorScale(d.originalSentence.abstractOrder))
-      .attr('fill-opacity', 0.1)
+      .attr('fill-opacity', 0)
+      .attr('class', 'segment-bounds');
 
     individualSegment
       .append('text')
       .text(d => d.content.join(' '))
+//      .text(d => d.content.join(' ') + '   ' + d.originalSentence.sentencePos)
+      .attr('font-size', options.sentenceFontSize)
+      .attr('font-family', options.sentenceFontFamily)
       .attr('id', (d, i) => `${d.originalSentence.id}-${d.prevAnchor.id}`)
       .attr('class', d => `segment-text ${d.originalSentence.id}`)
       .on('mouseover', d => {
@@ -176,10 +243,13 @@ function constructor(skeleton){
       .append('path')
       .attr('class', (d, i) => `segment-link ${d.originalSentence.id}`)
       .attr('d', (d, i) => { 
-        if (!d.nextAnchor || d.content[0] === '') {
+//        if (!d.nextAnchor || d.content[0] === '') {
+        if (!d.nextAnchor) {
           return linkGenerator([]);
         }
-        const xOffset = d.prevAnchor.stem === '' ? 0 : -options.anchorWidth;      
+        const xOffset = d.prevAnchor.stem === '' 
+          ? 0 
+          : -getTextWidth(d.prevAnchor.display, options.anchorFontSize, options.anchorFontFamily);    
         const baseX = d.prevAnchor.vis.segmentWidth + xOffset - 5;  
         const baseYStart = options.sentenceHeight / 2;
         const baseYEnd = d.nextAnchor.vis.y - i * options.sentenceHeight;
@@ -191,7 +261,8 @@ function constructor(skeleton){
         ];
         return linkGenerator(linkData);
       })
-      .attr('stroke', 'black')
+      .attr('stroke', d => options.paperColorScale(d.originalSentence.abstractOrder))
+      .attr('stroke-width', 2)
       .attr('fill', 'none');
     // Visualize outgoing links for each anchor
     individualSegment
@@ -201,9 +272,11 @@ function constructor(skeleton){
         if (d.prevAnchor.stem === '') {
           return linkGenerator([]);
         }
-        const xOffset = d.prevAnchor.stem === '' ? 0 : -options.anchorWidth;      
-        const baseX = -20;
-        const baseYStart = d.prevAnchor.vis.y - i * options.sentenceHeight;
+        const xOffset = d.prevAnchor.stem === '' 
+          ? 0 
+          : -getTextWidth(d.prevAnchor.display, options.anchorFontSize, options.anchorFontFamily);    
+        const baseX = 5;
+        const baseYStart = (d.prevAnchor.vis.y - d.prevAnchor.vis.segmentTop) - i * options.sentenceHeight;
         const baseYEnd = options.sentenceHeight / 2;
         const yOffset =  baseYStart < baseYEnd ? 10 : -10;
         const linkData = [
@@ -214,8 +287,12 @@ function constructor(skeleton){
         ];
         return linkGenerator(linkData);
       })
-      .attr('stroke', 'black')
-      .attr('fill', 'none');
+      .attr('stroke', d => options.paperColorScale(d.originalSentence.abstractOrder))
+      .attr('stroke-width', 2)
+      .attr('fill', 'none')
+      .on('mouseover', d => {
+        console.log(d);
+      });
   }
 
   function computeVisProperties(treeData) {
@@ -229,8 +306,8 @@ function constructor(skeleton){
     });
     computeAnchorX(treeData);
     computeAnchorY(treeData);
-    console.log('after computation')
-    console.log(treeData)
+//     console.log('after computation')
+//     console.log(treeData)
   }
 
 
@@ -245,6 +322,7 @@ function constructor(skeleton){
         var maxLength = 0;
         var totalLength = 0;
         var totalSentences = 0;
+        var longestSentence = null;
         anchorStripe.forEach(a => {
           totalSentences += a.segments.length;
           a.segments.forEach(s => {
@@ -252,13 +330,18 @@ function constructor(skeleton){
             totalLength += charLength;
             if (charLength > maxLength) {
               maxLength = charLength;
+              longestSentence = s.content.join(' ');
             }
           });
         });
-        var xLength = Math.max(Math.min(totalLength / totalSentences * 9, maxStripeWidth), maxLength / 2 *  9);
+        var xLength = Math.max(100, getTextWidth(longestSentence, options.sentenceFontSize, options.sentenceFontFamily) / 2) + 80;
+        if (anchorStripe[0].stem.length > 0) {
+          xLength += getTextWidth(anchorStripe[0].display, options.anchorFontSize, options.anchorFontFamily);
+        }
+//        var xLength = Math.max(Math.min(totalLength / totalSentences * 9, maxStripeWidth), );
         anchorStripe.forEach(a => {
           a.vis.x = totalX;
-          a.vis.segmentWidth = xLength;
+          a.vis.segmentWidth = xLength; // segmentWidth is the entire x space allocated to an anchor and the segment that follows it
         });
         totalX += xLength;
       });
@@ -268,7 +351,7 @@ function constructor(skeleton){
   // Compute anchor positions based on the maximum number of words in each segment
   function computeAnchorY(treeData) {
     const totalSentences = _.sum(treeData.map(t => t.sentences.length));
-    const sentenceHeight = skeleton.getInnerHeight() / totalSentences;
+    const sentenceHeight = (skeleton.getInnerHeight() - 120) / totalSentences;
     skeleton.options({sentenceHeight});
 
     var totalSpaceAboveTree = 0;
@@ -278,11 +361,11 @@ function constructor(skeleton){
       tree.anchors.forEach(anchorStripe => {
         var totalSpaceAboveAnchor = 0;
         anchorStripe.forEach(a => {
-          const anchorSegmentsHeight = options.sentenceHeight * a.segments.length;
+          const anchorSegmentsHeight = options.sentenceHeight * Math.max(1, a.segments.length);
           a.vis.segmentTop = totalSpaceAboveAnchor;
           a.vis.y = totalSpaceAboveAnchor + anchorSegmentsHeight / 2;
           totalSpaceAboveAnchor += anchorSegmentsHeight;
-        })
+        });
         if (totalSpaceAboveAnchor > treeHeight) {
           treeHeight = totalSpaceAboveAnchor;
         }

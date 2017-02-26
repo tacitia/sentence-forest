@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
  
 import AbstractTextAreaContainer from '../containers/AbstractTextAreaContainer';
 import SentenceForestContainer from '../containers/SentenceForestContainer';
+import TaskNotesContainer from '../containers/TaskNotesContainer';
 import InstructionsContainer from '../containers/InstructionsContainer';
 
 class App extends React.Component {
@@ -36,15 +37,25 @@ class App extends React.Component {
       if (this.props.interfaceCondition === 'text-only') {
         return (
           <div id="app-root-wrapper">
-            <AbstractTextAreaContainer />
+            <TaskNotesContainer />
+            <div className="main-content">
+              <AbstractTextAreaContainer />
+            </div>
           </div>
         );
       }
       else {
         return (
           <div id="app-root-wrapper">
-            <SentenceForestContainer />
-            <AbstractTextAreaContainer />
+            <TaskNotesContainer />
+            <div className="flexbox-horizontal main-content">
+              <div style={{flex: "1 0 450px"}}>
+                <AbstractTextAreaContainer />
+              </div>
+              <div className="basic-flex-item">
+                <SentenceForestContainer />
+              </div>
+            </div>
           </div>
         );
       }

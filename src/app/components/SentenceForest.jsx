@@ -18,7 +18,8 @@ class SentenceForest extends React.Component {
     const sentenceForestData = {
       data: this.props.sentenceForestData,
       states: {
-        hoverSentence: this.props.hoverSentence
+        hoverSentence: this.props.hoverSentence,
+        selectedAbstract: this.props.selectedAbstract
       }
     };
     return (

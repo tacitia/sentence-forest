@@ -3,8 +3,8 @@
 import { conditionActionTypes } from '../actions/conditionActions';
 
 const initialState = {
-  abstractGroup: 5,
-  abstractOrder: 'pos-neg',
+  abstractGroup: null,
+  abstractOrder: null,
 //  interfaceCondition: 'text-only',
   interfaceCondition: 'text-vis',
   interfaceStage: 'task'

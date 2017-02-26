@@ -16,3 +16,11 @@ export const getRandomString = (length, chars) => {
     for (var i = length; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
     return result;
 }
+
+export const getTextWidth = (text, fontSize, fontFace) => {
+    var a = document.createElement('canvas');
+    var b = a.getContext('2d');
+    b.font = fontSize + 'px ' + fontFace;
+
+    return b.measureText(text).width;
+} 
