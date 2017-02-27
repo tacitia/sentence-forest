@@ -52,12 +52,11 @@ class AbstractTextArea extends React.Component {
   }
 
   handleMouseoverSentence(sentence) {
-    console.log(sentence)
-    this.props.onSentenceHover(sentence.id);
+    this.props.onSentenceHover(sentence);
   }
 
   handleMouseoutSentence() {
-    this.props.onSentenceHover(-1);
+    this.props.onSentenceHover({ id:-1 });
   }
 
   render() {

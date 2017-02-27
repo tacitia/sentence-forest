@@ -198,7 +198,8 @@ function generateAnchors(names) {
   return augmentedNames.map(n => Object.assign({}, n, {
     level: 0,
     id: shortid.generate(),
-    segments: []
+    segments: [],
+    prevSegments: []
   }))
 }
 
@@ -297,6 +298,7 @@ function constructSentenceTree(anchors, sentences) {
           };
           segments.push(segment);
           anchors[anchorPos-1].segments.push(segment);
+          anchors[anchorPos].prevSegments.push(segment)
           startIndex = i+stems.length;
           anchorPos += 1;
           prevAnchor = anchors[anchorPos-1];
@@ -315,7 +317,7 @@ function constructSentenceTree(anchors, sentences) {
           originalSentence: s
         };
         segments.push(segment);
-        anchors[anchors.length-1].segments.push(segment);   
+        anchors[anchors.length-1].segments.push(segment); 
       }
       s.segments = segments;
       return s;

@@ -26,8 +26,14 @@ const mapDispatchToProps = (dispatch) => {
     onUserNotesSubmit: (abstractId, notes) => {
       dispatch(postResponse('userNotes-' + abstractId, notes));
     },
-    onSentenceHover: (sentenceId) => {
-      dispatch(setHoverSentence(sentenceId));
+    onSentenceHover: (sentence) => {
+      dispatch(setHoverSentence(sentence.id));
+      if (sentence.id !== -1) {
+        dispatch(postAction('abstracts:sentence-'+ sentence.abstractOrder+'-'+sentence.sentencePos, 'mouseover', 'Hover over a sentence in the abstract text'));
+      }
+      else {
+        dispatch(postAction('abstracts:sentence', 'mouseout', 'Mouseout a sentence in the abstract text'));        
+      }
     },
     allArticlesRead: () => {
       dispatch(setInterfaceStage('exit-survey'));

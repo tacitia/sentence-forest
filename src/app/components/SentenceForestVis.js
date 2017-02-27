@@ -9,10 +9,10 @@ d3.tip = d3Tip;
 const colorPalette = ["#5e904e", "#dc58ea", "#2499d7", "#eb5e9b", "#8270f6", "#0ca82e"]; // Lighter
 
 const DEFAULT_OPTIONS = {
-  margin: {top: 10, right: 10, bottom: 10, left: 10},
+  margin: {top: 10, right: 10, bottom: 10, left: 20},
   initialWidth: 2000,
-  initialHeight: 1600,
-  sentenceHeight: 50,
+  initialHeight: 1200,
+  sentenceHeight: 20,
   anchorWidth: 100,
   treeGap: 10,
   segmentWidths: [],
@@ -84,7 +84,7 @@ function constructor(skeleton){
     const individualSegment = visualizeSegments(anchorStripes);
     // Step 3: Draw the curves connecting phrases and words
     visualizeLinks(individualSegment);
-
+    visualizePointers(individualSegment);
     // Step 4: Celebrate & take care of external-initiated updates
     const segmentTexts = layers.get('forest').selectAll('.segment-text');
     segmentTexts.classed('segment-text-highlight', d => {
@@ -94,7 +94,28 @@ function constructor(skeleton){
       .classed('segment-out-focus', d => {
         return d.originalSentence.abstractOrder !== skeleton.data().states.selectedAbstract;
       });
-
+    layers.get('forest').selectAll('.anchor')
+      .classed('segment-out-focus', d => {
+        console.log(d)
+        var outFocus = true;
+        d.segments.forEach(s => {
+          console.log(s.originalSentence.abstractOrder === skeleton.data().states.selectedAbstract)
+          if (s.originalSentence.abstractOrder === skeleton.data().states.selectedAbstract) {
+            outFocus = false;
+          }
+        });
+        d.prevSegments.forEach(s => {
+          console.log(s.originalSentence.abstractOrder === skeleton.data().states.selectedAbstract)
+          if (s.originalSentence.abstractOrder === skeleton.data().states.selectedAbstract) {
+            outFocus = false;
+          }
+        });
+        return outFocus;
+      });
+    layers.get('forest').selectAll('.pointer')
+      .classed('hidden', d => {
+        return (d.originalSentence.id !== skeleton.data().states.hoverSentence);
+      });
   } 
 
   function sortTrees(trees) {
@@ -172,7 +193,7 @@ function constructor(skeleton){
     individualSegment
       .append('rect')
       .attr('x', d => d.prevAnchor.stem === '' ? 10 : 28)
-      .attr('y', 20)
+      .attr('y', 15)
       .attr('width', (d, i) => {
         const widthOffset = 35;
         const baseWidth = d.prevAnchor.vis.segmentWidth - widthOffset ;
@@ -180,7 +201,7 @@ function constructor(skeleton){
           ? baseWidth
           : baseWidth - getTextWidth(d.prevAnchor.display, options.anchorFontSize, options.anchorFontFamily) - 17;
       })
-      .attr('height', options.sentenceHeight - 40)
+      .attr('height', 5)
       .attr('fill', d => options.paperColorScale(d.originalSentence.abstractOrder))
       .attr('class', 'segment-background');
 
@@ -208,15 +229,17 @@ function constructor(skeleton){
       .attr('id', (d, i) => `${d.originalSentence.id}-${d.prevAnchor.id}`)
       .attr('class', d => `segment-text ${d.originalSentence.id}`)
       .on('mouseover', d => {
+        if (d.originalSentence.abstractOrder !== skeleton.data().states.selectedAbstract) return
         segments.selectAll(`.segment-text.${d.originalSentence.id}`).classed('segment-text-highlight', true);
         segments.selectAll(`.segment-link.${d.originalSentence.id}`).classed('segment-link-highlight', true);
         // TODO: highlight associated anchors as well
-        dispatch.sentenceMouseOver(d.originalSentence.id);
+        dispatch.sentenceMouseOver(d.originalSentence);
       })
       .on('mouseout', d => {
+        if (d.originalSentence.abstractOrder !== skeleton.data().states.selectedAbstract) return
         segments.selectAll('.segment-text').classed('segment-text-highlight', false);
         segments.selectAll('.segment-link').classed('segment-link-highlight', false);
-        dispatch.sentenceMouseOver(-1);
+        dispatch.sentenceMouseOver({ id: -1 });
       });
 
     // Wrap texts
@@ -231,6 +254,18 @@ function constructor(skeleton){
       });
 
     return individualSegment;
+  }
+
+  function visualizePointers(individualSegment) {
+    const startAnchors = individualSegment
+      .filter(d => d.prevAnchor.stem === '');
+    const points = '0 0, 16 9, 0 18, 4 9';      
+    startAnchors.append('polyline')
+      .attr('points', points)
+      .attr('transform', 'translate(-10, 8)')
+      .attr('class', 'pointer')
+      .style('stroke', 'steelblue')
+      .style('fill', 'steelblue');
   }
 
   function visualizeLinks(individualSegment) {
