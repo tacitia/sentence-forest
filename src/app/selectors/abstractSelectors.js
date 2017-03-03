@@ -276,6 +276,9 @@ function constructSentenceTree(anchors, sentences) {
     .forEach(s => {
       const segments = [];
       const tokens = treebank(s.content);
+      if (tokens[tokens.length-1] !== '.') {
+        tokens.push('.');
+      }
       var startIndex = 0;
       var anchorPos = 1; // Skip the dummy start anchor
       var i = 0;

@@ -7,12 +7,14 @@ d3.tip = d3Tip;
 
 // const colorPalette = ["#4f8c9d", "#4d943a", "#b55edb", "#427ff5", "#ce5d8e", "#9a789e"]; // Darker
 const colorPalette = ["#5e904e", "#dc58ea", "#2499d7", "#eb5e9b", "#8270f6", "#0ca82e"]; // Lighter
+// const colorPalette = ['#dd3b44', '#2578b5', '#569597', '#eb652d', '#9c6680', '#aec487']; // Chinese
 
 const DEFAULT_OPTIONS = {
   margin: {top: 10, right: 10, bottom: 10, left: 20},
   initialWidth: 2000,
-  initialHeight: 1200,
+  initialHeight: 800,
   sentenceHeight: 20,
+  focusSentenceHeight: 35,
   anchorWidth: 100,
   treeGap: 10,
   segmentWidths: [],
@@ -23,7 +25,8 @@ const DEFAULT_OPTIONS = {
   sentenceFontFamily: 'Roboto',
   paperColorScale: d3.scale.ordinal()
     .domain([0, 1, 2, 3, 4, 5])
-    .range(colorPalette)
+    .range(colorPalette),
+  useDynamicLayout: true
 };
 
 const CUSTOM_EVENTS = [
@@ -70,13 +73,19 @@ function constructor(skeleton){
     const sortedData = sortTrees(data);
     computeVisProperties(sortedData);
 
+    const activeAbstract = skeleton.data().states.selectedAbstract;
+
     const treeGroups = layers.get('forest')
       .selectAll('.tree')
       .data(data)
       .enter()
       .append('g')
-      .attr('transform', (d, i) => `translate(0, ${d.vis.y})`)
       .attr('class', 'tree');
+
+    layers.get('forest')
+      .selectAll('.tree')
+      .transition()
+      .attr('transform', (d, i) => `translate(0, ${options.useDynamicLayout ? d.vis.dynamicY[activeAbstract] : d.vis.y})`)
 
     // Step 1: Draw the anchor words
     const anchorStripes = visualizeAnchors(treeGroups, data);
@@ -92,21 +101,18 @@ function constructor(skeleton){
       });
     layers.get('forest').selectAll('.segment')
       .classed('segment-out-focus', d => {
-        return d.originalSentence.abstractOrder !== skeleton.data().states.selectedAbstract;
+        return d.originalSentence.abstractOrder !== activeAbstract;
       });
     layers.get('forest').selectAll('.anchor')
       .classed('segment-out-focus', d => {
-        console.log(d)
         var outFocus = true;
         d.segments.forEach(s => {
-          console.log(s.originalSentence.abstractOrder === skeleton.data().states.selectedAbstract)
-          if (s.originalSentence.abstractOrder === skeleton.data().states.selectedAbstract) {
+          if (s.originalSentence.abstractOrder === activeAbstract) {
             outFocus = false;
           }
         });
         d.prevSegments.forEach(s => {
-          console.log(s.originalSentence.abstractOrder === skeleton.data().states.selectedAbstract)
-          if (s.originalSentence.abstractOrder === skeleton.data().states.selectedAbstract) {
+          if (s.originalSentence.abstractOrder === activeAbstract) {
             outFocus = false;
           }
         });
@@ -119,7 +125,6 @@ function constructor(skeleton){
   } 
 
   function sortTrees(trees) {
-    console.log(trees);
     return trees.sort((treeA, treeB) => {
       const sentencePositionsA = treeA.sentences.map(s => s.sentencePos);
       const sentencePositionsB = treeB.sentences.map(s => s.sentencePos);
@@ -145,6 +150,7 @@ function constructor(skeleton){
   }
 
   function visualizeAnchors(treeGroup, treeData) {
+    const activeAbstract = skeleton.data().states.selectedAbstract;
     const anchorStripes = treeGroup
       .selectAll('.anchor-stripe')
       .data(d => d.anchors)
@@ -160,40 +166,48 @@ function constructor(skeleton){
       .attr('class', 'anchor')
       .text(d => d.display)
       .attr('font-size', options.anchorFontSize)
-      .attr('font-family', options.anchorFontFamily)
-      .attr('y', d => d.vis.y + 3)
-      .attr('class', 'anchor')
-      .on('mouseover', a => {
-        console.log(a);
-      });
+      .attr('font-family', options.anchorFontFamily);
+
+    layers.get('forest')
+      .selectAll('.anchor')
+      .transition()
+      .attr('y', d => (options.useDynamicLayout ? d.vis.dynamicY[activeAbstract] : d.vis.y) + 3)
 
     return anchorStripes;
   }
 
   function visualizeSegments(anchorStripes) {
+   const activeAbstract = skeleton.data().states.selectedAbstract;
    const segments = anchorStripes.selectAll('.segment-group')
       .data(d => d)
       .enter()
       .append('g')
-      .attr('class', 'segment-group')
+      .attr('class', 'segment-group');
+
+    layers.get('forest')
+      .selectAll('.segment-group')
+      .transition()
       .attr('transform', (d, i) => {
         const left = d.stem === '' 
         ? 0 
         : getTextWidth(d.display, options.anchorFontSize, options.anchorFontFamily);
-        return `translate(${left}, ${d.vis.segmentTop})`
+        const segmentTop = options.useDynamicLayout ? d.vis.dynamicSegmentTop[activeAbstract] : d.vis.segmentTop;
+        return `translate(${left}, ${segmentTop})`
       });      
 
     const individualSegment = segments.selectAll('.segment')
       .data(d => d.segments)
       .enter()
       .append('g')
-      .attr('class', 'segment')
-      .attr('transform', (d, i) => `translate(0, ${i * options.sentenceHeight})`);
+      .attr('class', 'segment');
+
+    layers.get('forest')
+      .selectAll('.segment')
+      .attr('transform', (d, i) => `translate(0, ${options.useDynamicLayout ? d.vis.dynamicSingleSegmentTop[activeAbstract] : i * options.sentenceHeight})`);
 
     individualSegment
       .append('rect')
       .attr('x', d => d.prevAnchor.stem === '' ? 10 : 28)
-      .attr('y', 15)
       .attr('width', (d, i) => {
         const widthOffset = 35;
         const baseWidth = d.prevAnchor.vis.segmentWidth - widthOffset ;
@@ -205,25 +219,51 @@ function constructor(skeleton){
       .attr('fill', d => options.paperColorScale(d.originalSentence.abstractOrder))
       .attr('class', 'segment-background');
 
-    individualSegment
+    layers.get('forest').selectAll('.segment-background')
+      .transition(1000)
+      .attr('y', d => {
+        return (options.useDynamicLayout && d.originalSentence.abstractOrder === activeAbstract) ? options.focusSentenceHeight - 5 : options.sentenceHeight - 5;
+      });
+
+    drawSegmentTexts(individualSegment);
+      
+    return individualSegment;
+  }
+
+  function drawSegmentTexts(individualSegment) {
+   const activeAbstract = skeleton.data().states.selectedAbstract;
+    layers.get('forest')
+      .selectAll('.segment-text')
+      .remove();
+
+    layers.get('forest')
+      .selectAll('.segment-bounds')
+      .remove();
+
+    const segments = layers.get('forest')
+      .selectAll('.segment');
+
+    segments
       .append('rect')
       .attr('x', d => d.prevAnchor.stem === '' ? 10 : 28)
-      .attr('y', 0)
-      .attr('width', (d, i) => {
-        const widthOffset = 35;
-        const baseWidth = d.prevAnchor.vis.segmentWidth - widthOffset ;
-        return d.prevAnchor.stem === '' 
-          ? baseWidth
-          : baseWidth - getTextWidth(d.prevAnchor.display, options.anchorFontSize, options.anchorFontFamily) - 10;
+      .attr('y', (d, i) => {
+        if (options.useDynamicLayout && d.originalSentence.abstractOrder === activeAbstract) {
+          const textWidth = getTextWidth(d.content.join(' '), options.sentenceFontSize, options.sentenceFontFamily);
+          const rectWidth = computeSegmentWidth(d);
+          return textWidth < rectWidth ? 13 : 3;
+        }
+        else {
+          return 3;
+        }
       })
-      .attr('height', options.sentenceHeight)
+      .attr('width', d => computeSegmentWidth(d))
       .attr('fill-opacity', 0)
-      .attr('class', 'segment-bounds');
+      .attr('class', 'segment-bounds')
+      .attr('height', d => (options.useDynamicLayout && d.originalSentence.abstractOrder === activeAbstract) ? options.focusSentenceHeight : options.sentenceHeight);
 
-    individualSegment
+    segments
       .append('text')
       .text(d => d.content.join(' '))
-//      .text(d => d.content.join(' ') + '   ' + d.originalSentence.sentencePos)
       .attr('font-size', options.sentenceFontSize)
       .attr('font-family', options.sentenceFontFamily)
       .attr('id', (d, i) => `${d.originalSentence.id}-${d.prevAnchor.id}`)
@@ -243,7 +283,8 @@ function constructor(skeleton){
       });
 
     // Wrap texts
-    individualSegment.selectAll('.segment-text')
+    layers.get('forest')
+      .selectAll('.segment-text')
       .each((d, i) => {
         // Avoiding wrapping empty segments, which seem to result in displaying "false"
         if (d.content[0] !== '') {
@@ -253,7 +294,14 @@ function constructor(skeleton){
         }
       });
 
-    return individualSegment;
+  }
+
+  function computeSegmentWidth(d) {
+    const widthOffset = 35;
+    const baseWidth = d.prevAnchor.vis.segmentWidth - widthOffset ;
+    return d.prevAnchor.stem === '' 
+      ? baseWidth
+      : baseWidth - getTextWidth(d.prevAnchor.display, options.anchorFontSize, options.anchorFontFamily) - 10;
   }
 
   function visualizePointers(individualSegment) {
@@ -269,6 +317,7 @@ function constructor(skeleton){
   }
 
   function visualizeLinks(individualSegment) {
+    const activeAbstract = skeleton.data().states.selectedAbstract;
     const linkGenerator = d3.svg.line()
       .x(d => d.x)
       .y(d => d.y)
@@ -276,9 +325,12 @@ function constructor(skeleton){
     // Visualize incoming links for each anchor
     individualSegment
       .append('path')
-      .attr('class', (d, i) => `segment-link ${d.originalSentence.id}`)
+      .attr('class', (d, i) => `segment-link incoming-link ${d.originalSentence.id}`);
+
+    layers.get('forest').selectAll('.incoming-link')
+      .transition()
       .attr('d', (d, i) => { 
-//        if (!d.nextAnchor || d.content[0] === '') {
+        const sentenceHeight = (options.useDynamicLayout && d.originalSentence.abstractOrder === activeAbstract) ? options.focusSentenceHeight : options.sentenceHeight;
         if (!d.nextAnchor) {
           return linkGenerator([]);
         }
@@ -286,8 +338,11 @@ function constructor(skeleton){
           ? 0 
           : -getTextWidth(d.prevAnchor.display, options.anchorFontSize, options.anchorFontFamily);    
         const baseX = d.prevAnchor.vis.segmentWidth + xOffset - 5;  
-        const baseYStart = options.sentenceHeight / 2;
-        const baseYEnd = d.nextAnchor.vis.y - i * options.sentenceHeight;
+        const baseYStart = (options.useDynamicLayout && d.originalSentence.abstractOrder === activeAbstract) ? (sentenceHeight / 2 + 14) : (sentenceHeight / 2 + 6);
+        const nextAnchorY = options.useDynamicLayout ? d.nextAnchor.vis.dynamicY[activeAbstract] : d.nextAnchor.vis.y;
+        const baseYEnd = options.useDynamicLayout 
+          ? (nextAnchorY - d.vis.dynamicSingleSegmentTop[activeAbstract]) 
+          : (nextAnchorY - i * options.sentenceHeight);
         const linkData = [
           { x: baseX - 20, y: baseYStart }, 
           { x: baseX - 15, y: baseYStart }, 
@@ -299,21 +354,29 @@ function constructor(skeleton){
       .attr('stroke', d => options.paperColorScale(d.originalSentence.abstractOrder))
       .attr('stroke-width', 2)
       .attr('fill', 'none');
+
     // Visualize outgoing links for each anchor
     individualSegment
       .append('path')
-      .attr('class', (d, i) => `segment-link ${d.originalSentence.id}`)
+      .attr('class', (d, i) => `segment-link outgoing-link ${d.originalSentence.id}`);
+
+    layers.get('forest').selectAll('.outgoing-link')
+      .transition()    
       .attr('d', (d, i) => { 
         if (d.prevAnchor.stem === '') {
           return linkGenerator([]);
         }
+        const sentenceHeight = (options.useDynamicLayout && d.originalSentence.abstractOrder === activeAbstract) ? options.focusSentenceHeight : options.sentenceHeight;
         const xOffset = d.prevAnchor.stem === '' 
           ? 0 
           : -getTextWidth(d.prevAnchor.display, options.anchorFontSize, options.anchorFontFamily);    
-        const baseX = 5;
-        const baseYStart = (d.prevAnchor.vis.y - d.prevAnchor.vis.segmentTop) - i * options.sentenceHeight;
-        const baseYEnd = options.sentenceHeight / 2;
-        const yOffset =  baseYStart < baseYEnd ? 10 : -10;
+        const baseX = 7;
+        const prevAnchorY = options.useDynamicLayout ? d.prevAnchor.vis.dynamicY[activeAbstract] : d.prevAnchor.vis.y;
+        const prevAnchorTop = options.useDynamicLayout ? d.prevAnchor.vis.dynamicSegmentTop[activeAbstract] : d.prevAnchor.vis.segmentTop;
+        const baseYStart = options.useDynamicLayout
+          ? (prevAnchorY - prevAnchorTop) - d.vis.dynamicSingleSegmentTop[activeAbstract]
+          : (prevAnchorY - prevAnchorTop) - i * options.sentenceHeight;
+        const baseYEnd = (options.useDynamicLayout && d.originalSentence.abstractOrder === activeAbstract) ? (sentenceHeight / 2 + 14) : (sentenceHeight / 2 + 6);
         const linkData = [
           { x: baseX, y: baseYStart }, 
           { x: baseX + 5, y: baseYStart},
@@ -324,23 +387,32 @@ function constructor(skeleton){
       })
       .attr('stroke', d => options.paperColorScale(d.originalSentence.abstractOrder))
       .attr('stroke-width', 2)
-      .attr('fill', 'none')
-      .on('mouseover', d => {
-        console.log(d);
-      });
+      .attr('fill', 'none');
   }
 
   function computeVisProperties(treeData) {
     treeData.forEach(tree => {
       tree.vis = {};
+      tree.vis.dynamicY = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
       tree.anchors.forEach(anchorStripe => {
         anchorStripe.forEach(a => {
           a.vis = {};
+          a.vis.dynamicSegmentTop = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+          a.vis.dynamicY = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+          a.segments.forEach(s => {
+            s.vis = {};
+            s.vis.dynamicSingleSegmentTop = { 0: 0, 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+          });
         })
       })
     });
     computeAnchorX(treeData);
-    computeAnchorY(treeData);
+    if (options.useDynamicLayout) {
+      computeAnchorYCollapse(treeData);
+    }
+    else {
+      computeAnchorY(treeData);      
+    }
 //     console.log('after computation')
 //     console.log(treeData)
   }
@@ -406,6 +478,42 @@ function constructor(skeleton){
         }
       });
       totalSpaceAboveTree += (treeHeight + options.treeGap);
+    });
+  }
+
+  function computeAnchorYCollapse(treeData) {
+    const minimumSentenceHeight = options.sentenceHeight;
+    const focusSentenceHeight = options.focusSentenceHeight;
+    skeleton.options({minimumSentenceHeight});
+
+    [0, 1, 2, 3, 4, 5].forEach(abstractOrder => {
+      var totalSpaceAboveTree = 0;
+      treeData.forEach(tree => {
+        tree.vis.dynamicY[abstractOrder] = totalSpaceAboveTree;
+        var treeHeight = 0;
+        tree.anchors.forEach(anchorStripe => {
+          var totalSpaceAboveAnchor = 0;
+          anchorStripe.forEach(a => {
+            var anchorSegmentsHeight = 0;
+            a.segments.forEach(s => {
+              s.vis.dynamicSingleSegmentTop[abstractOrder] = anchorSegmentsHeight;
+              if (s.originalSentence.abstractOrder === abstractOrder) {
+                anchorSegmentsHeight += focusSentenceHeight;
+              }
+              else {
+                anchorSegmentsHeight += minimumSentenceHeight;
+              }
+            })
+            a.vis.dynamicSegmentTop[abstractOrder] = totalSpaceAboveAnchor;
+            a.vis.dynamicY[abstractOrder] = totalSpaceAboveAnchor + anchorSegmentsHeight / 2;
+            totalSpaceAboveAnchor += anchorSegmentsHeight;
+          });
+          if (totalSpaceAboveAnchor > treeHeight) {
+            treeHeight = totalSpaceAboveAnchor;
+          }
+        });
+        totalSpaceAboveTree += (treeHeight + options.treeGap);
+      });
     });
   }
 

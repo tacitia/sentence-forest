@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom'
  
+import AbstractListContainer from '../containers/AbstractListContainer';
 import AbstractTextAreaContainer from '../containers/AbstractTextAreaContainer';
+import ResponseAreaContainer from '../containers/ResponseAreaContainer';
 import SentenceForestContainer from '../containers/SentenceForestContainer';
 import TaskNotesContainer from '../containers/TaskNotesContainer';
 import InstructionsContainer from '../containers/InstructionsContainer';
@@ -48,13 +50,17 @@ class App extends React.Component {
         return (
           <div id="app-root-wrapper">
             <TaskNotesContainer />
-            <div className="flexbox-horizontal main-content">
-              <div style={{flex: "1 0 450px"}}>
-                <AbstractTextAreaContainer />
+            <div className="main-content">
+              <AbstractListContainer />
+              <div className="flexbox-horizontal">
+                <div style={{flex: "1 0 450px"}}>
+                  <AbstractTextAreaContainer />
+                </div>
+                <div className="basic-flex-item">
+                  <SentenceForestContainer />
+                </div>
               </div>
-              <div className="basic-flex-item">
-                <SentenceForestContainer />
-              </div>
+              <ResponseAreaContainer />
             </div>
           </div>
         );

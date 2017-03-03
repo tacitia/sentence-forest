@@ -56,3 +56,19 @@
     background-color: #ccc; 
   }
 }
+
+.list-group {
+  border-radius: 5px;
+}
+
+.list-group-item-flex {
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-size: 14px;
+  width: 33%;
+  font-family: Roboto;
+  &.active {
+    background-color: #337ab7;
+    color: #fff;
+  }
+}
